@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import font as tkfont
-from PIL import Image, ImageTk
+# from PIL import Image, ImageTk
 
 class TriangularPage(tk.Frame):
 
@@ -57,14 +57,18 @@ class TriangularPage(tk.Frame):
         img_frame.columnconfigure(0, weight=1)
 
         ## Img > label_img
-        # img = tk.PhotoImage(file='img/rectangular.png')
-        img = Image.open('img/rectangular.png')
-        img = img.resize((300, 250), Image.ANTIALIAS)
-        img_label = ImageTk.PhotoImage(img)
-        # img_label = tk.Label(img_frame)
-        # img_label.image = img
-        # img_label.configure(image=img)
-        img_label = tk.Label(image=img_label)
+        # PIL
+        # img= ImageTk.PhotoImage(Image.open("img/rectangular.png"))
+        # img = img.resize((300, 250), Image.ANTIALIAS)
+        # img = ImageTk.PhotoImage(img)
+        # img_label = tk.Label(image=img)
+
+        # no PIL
+        img = tk.PhotoImage(file='img/rectangular.png')
+        img_label = tk.Label(img_frame)
+        img_label.image = img
+        img_label.configure(image=img)
+
         img_label.grid(row=0, column=0, columnspan=12, rowspan=6)
 
 
