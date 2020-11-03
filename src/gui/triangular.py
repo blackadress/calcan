@@ -71,7 +71,6 @@ class TriangularPage(tk.Frame):
 
         img_label.grid(row=0, column=0, columnspan=12, rowspan=6)
 
-
         button = tk.Button(
             self, text="Inicio",
             border=2,
