@@ -74,8 +74,20 @@ class TrapecioPage(tk.Frame):
 
         img_label.grid(row=0, column=0, columnspan=12, rowspan=6)
 
+        # adding bottom frame full
+        bottom_frame = tk.Frame(self, border=2, relief=tk.RAISED)
+        bottom_frame.grid(
+                row=6, column=0, columnspan=12, rowspan=4, sticky='we', padx=10, pady=30)
+        bottom_frame.config(border=2)
+        bottom_frame.columnconfigure(0, weight=1)
+
+        # Titulo Resultados
+        titulo = tk.Label(bottom_frame, text='Resultados')
+        titulo.grid(row=0, column=0, columnspan=12)
+        titulo.config(fg='blue')
+
         # adding bottom frame left (results)
-        results_frame_left = tk.Frame(self, border=2, relief=tk.RAISED)
+        results_frame_left = tk.Frame(bottom_frame, border=2, relief=tk.RAISED)
         results_frame_left.grid(
             row=6, column=0, columnspan=6, rowspan=4, sticky='w', padx=(50, 10), pady=30)
         results_frame_left.config(border=2)
@@ -130,7 +142,7 @@ class TrapecioPage(tk.Frame):
         numero_froude_label.config(padx=4)
 
         # adding bottom right frame (datos)
-        results_frame_right = tk.Frame(self, border=2, relief=tk.RAISED)
+        results_frame_right = tk.Frame(bottom_frame, border=2, relief=tk.RAISED)
         results_frame_right.grid(
             row=6, column=4, columnspan=6, rowspan=4, sticky='e', padx=(10, 10), pady=30)
         results_frame_right.config(border=3)
