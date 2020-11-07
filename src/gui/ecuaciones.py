@@ -23,7 +23,7 @@ def tirante_critico_triangular(Q, z):
     return round(res, ROUND_DIGITS)
 
 # A
-def area_hidraulica_triangular(z, y):
+def area_hidraulica_triangular(y, z):
     res = (z * y**2)
     return round(res, ROUND_DIGITS)
 

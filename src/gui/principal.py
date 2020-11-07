@@ -1,10 +1,10 @@
 import tkinter as tk
 from tkinter import font as tkfont
 
-from .circular import CircularPage
-from .rectangular import RectangularPage
-from .trapecio import TrapecioPage
-from .triangular import TriangularPage
+from gui.circular import CircularPage
+from gui.rectangular import RectangularPage
+from gui.trapecio import TrapecioPage
+from gui.triangular import TriangularPage
 
 
 class HCanalesApp(tk.Tk):

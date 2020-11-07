@@ -1,1 +1,1 @@
-from .principal import HCanalesApp
+from gui.principal import HCanalesApp

@@ -2,6 +2,8 @@ import tkinter as tk
 from tkinter import font as tkfont
 # from PIL import Image, ImageTk
 
+from gui.ecuaciones import numero_de_froude, pendiente_critica, tirante_critico_triangular, area_hidraulica_triangular, espejo_de_agua_triangular, perimetro_mojado_triangular, radio_hidraulico_triangular, velocidad_triangular, energia_especifica_triangular
+
 
 class TriangularPage(tk.Frame):
 
@@ -28,8 +30,8 @@ class TriangularPage(tk.Frame):
         ## Datos > Caudal
         caudal_label = tk.Label(datos_frame, text='Caudal (Q)', height=2)
         caudal_label.grid(row=1, column=0)
-        caudal_entry = tk.Entry(datos_frame)
-        caudal_entry.grid(row=1, column=1)
+        self.caudal_entry = tk.Entry(datos_frame)
+        self.caudal_entry.grid(row=1, column=1)
         caudal_label = tk.Label(datos_frame, text='m3/s', height=2)
         caudal_label.grid(row=1, column=2)
         caudal_label.config(padx=4)
@@ -38,8 +40,8 @@ class TriangularPage(tk.Frame):
         ancho_solera_label = tk.Label(
             datos_frame, text='Ancho de solera (b)', height=2)
         ancho_solera_label.grid(row=2, column=0)
-        ancho_solera_entry = tk.Entry(datos_frame)
-        ancho_solera_entry.grid(row=2, column=1)
+        self.ancho_solera_entry = tk.Entry(datos_frame)
+        self.ancho_solera_entry.grid(row=2, column=1)
         ancho_solera_label = tk.Label(datos_frame, text='m', height=2)
         ancho_solera_label.grid(row=2, column=2)
         ancho_solera_label.config(padx=4)
@@ -47,8 +49,8 @@ class TriangularPage(tk.Frame):
         ## Datos > Talud
         talud_label = tk.Label(datos_frame, text='Talud (Z)', height=2)
         talud_label.grid(row=3, column=0)
-        talud_entry = tk.Entry(datos_frame)
-        talud_entry.grid(row=3, column=1)
+        self.talud_entry = tk.Entry(datos_frame)
+        self.talud_entry.grid(row=3, column=1)
         talud_label = tk.Label(datos_frame, text='', height=2)
         talud_label.grid(row=3, column=2)
         talud_label.config(padx=4)
@@ -78,7 +80,7 @@ class TriangularPage(tk.Frame):
         # adding bottom frame full
         bottom_frame = tk.Frame(self, border=2, relief=tk.RAISED)
         bottom_frame.grid(
-                row=6, column=0, columnspan=12, rowspan=4, sticky='we', padx=10, pady=30)
+            row=6, column=0, columnspan=12, rowspan=4, sticky='we', padx=10, pady=30)
         bottom_frame.config(border=2)
         bottom_frame.columnconfigure(0, weight=1)
 
@@ -98,10 +100,10 @@ class TriangularPage(tk.Frame):
         tirante_critico_label = tk.Label(
             results_frame_left, text='Tirante crítico (y)', height=2)
         tirante_critico_label.grid(row=0, column=0)
-        tirante_critico_entry = tk.Entry(results_frame_left)
-        tirante_critico_entry = tk.Label(
+        # tirante_critico_entry = tk.Entry(results_frame_left)
+        self.tirante_critico_entry = tk.Label(
             results_frame_left, text='00.0000', height=2)
-        tirante_critico_entry.grid(row=0, column=1)
+        self.tirante_critico_entry.grid(row=0, column=1)
         tirante_critico_label = tk.Label(
             results_frame_left, text='m', height=2)
         tirante_critico_label.grid(row=0, column=2)
@@ -112,8 +114,8 @@ class TriangularPage(tk.Frame):
                               text='Área hidráulica (A)', height=2)
         area_label.grid(row=1, column=0)
         # area_entry = tk.Entry(results_frame_left)
-        area_entry = tk.Label(results_frame_left, text='00.0000', height=2)
-        area_entry.grid(row=1, column=1)
+        self.area_entry = tk.Label(results_frame_left, text='00.0000', height=2)
+        self.area_entry.grid(row=1, column=1)
         area_label = tk.Label(results_frame_left, text='m2', height=2)
         area_label.grid(row=1, column=2)
         area_label.config(padx=4)
@@ -123,9 +125,9 @@ class TriangularPage(tk.Frame):
             results_frame_left, text='Espejo de agua (T)', height=2)
         espejo_agua_label.grid(row=2, column=0)
         # espejo_agua_entry = tk.Entry(results_frame_left)
-        espejo_agua_entry = tk.Label(
+        self.espejo_agua_entry = tk.Label(
             results_frame_left, text='00.0000', height=2)
-        espejo_agua_entry.grid(row=2, column=1)
+        self.espejo_agua_entry.grid(row=2, column=1)
         espejo_agua_label = tk.Label(results_frame_left, text='m', height=2)
         espejo_agua_label.grid(row=2, column=2)
         espejo_agua_label.config(padx=4)
@@ -135,15 +137,16 @@ class TriangularPage(tk.Frame):
             results_frame_left, text='Número de Froude', height=2)
         numero_froude_label.grid(row=3, column=0)
         # numero_froude_entry = tk.Entry(results_frame_left)
-        numero_froude_entry = tk.Label(
+        self.numero_froude_entry = tk.Label(
             results_frame_left, text='00.0000', height=2)
-        numero_froude_entry.grid(row=3, column=1)
+        self.numero_froude_entry.grid(row=3, column=1)
         numero_froude_label = tk.Label(results_frame_left, text='', height=2)
         numero_froude_label.grid(row=3, column=2)
         numero_froude_label.config(padx=4)
 
         # adding bottom right frame (datos)
-        results_frame_right = tk.Frame(bottom_frame, border=2, relief=tk.RAISED)
+        results_frame_right = tk.Frame(
+            bottom_frame, border=2, relief=tk.RAISED)
         results_frame_right.grid(
             row=6, column=4, columnspan=6, rowspan=4, sticky='e', padx=(10, 10), pady=30)
         results_frame_right.config(border=3)
@@ -153,9 +156,9 @@ class TriangularPage(tk.Frame):
         perimetro_label = tk.Label(
             results_frame_right, text='Perímetro (p)', height=2)
         perimetro_label.grid(row=0, column=0)
-        perimetro_entry = tk.Entry(results_frame_right)
-        # perimetro_entry = tk.Label(results_frame_right, text='00.0000', height=2)
-        perimetro_entry.grid(row=0, column=1)
+        # self.perimetro_entry = tk.Entry(results_frame_right)
+        self.perimetro_entry = tk.Label(results_frame_right, text='00.0000', height=2)
+        self.perimetro_entry.grid(row=0, column=1)
         perimetro_label = tk.Label(results_frame_right, text='m', height=2)
         perimetro_label.grid(row=0, column=2)
         perimetro_label.config(padx=4)
@@ -164,9 +167,9 @@ class TriangularPage(tk.Frame):
         radio_hidraulico_label = tk.Label(
             results_frame_right, text='Radio hidráulico (R)', height=2)
         radio_hidraulico_label.grid(row=1, column=0)
-        radio_hidraulico_entry = tk.Entry(results_frame_right)
-        # radio_hidraulico_entry = tk.Label(results_frame_right, text='00.0000', height=2)
-        radio_hidraulico_entry.grid(row=1, column=1)
+        # radio_hidraulico_entry = tk.Entry(results_frame_right)
+        self.radio_hidraulico_entry = tk.Label(results_frame_right, text='00.0000', height=2)
+        self.radio_hidraulico_entry.grid(row=1, column=1)
         radio_hidraulico_label = tk.Label(
             results_frame_right, text='m', height=2)
         radio_hidraulico_label.grid(row=1, column=2)
@@ -176,9 +179,9 @@ class TriangularPage(tk.Frame):
         velocidad_label = tk.Label(
             results_frame_right, text='Velocidad', height=2)
         velocidad_label.grid(row=2, column=0)
-        velocidad_entry = tk.Entry(results_frame_right)
-        # velocidad_entry = tk.Label(results_frame_right, text='00.0000', height=2)
-        velocidad_entry.grid(row=2, column=1)
+        # velocidad_entry = tk.Entry(results_frame_right)
+        self.velocidad_entry = tk.Label(results_frame_right, text='00.0000', height=2)
+        self.velocidad_entry.grid(row=2, column=1)
         velocidad_label = tk.Label(results_frame_right, text='m/s', height=2)
         velocidad_label.grid(row=2, column=2)
         velocidad_label.config(padx=4)
@@ -187,9 +190,9 @@ class TriangularPage(tk.Frame):
         energia_especifica_label = tk.Label(
             results_frame_right, text='Energía específica (E)', height=2)
         energia_especifica_label.grid(row=3, column=0)
-        energia_especifica_entry = tk.Entry(results_frame_right)
-        # energia_especifica_entry = tk.Label(results_frame_right, text='00.0000', height=2)
-        energia_especifica_entry.grid(row=3, column=1)
+        # self.energia_especifica_entry = tk.Entry(results_frame_right)
+        self.energia_especifica_entry = tk.Label(results_frame_right, text='00.0000', height=2)
+        self.energia_especifica_entry.grid(row=3, column=1)
         energia_especifica_label = tk.Label(
             results_frame_right, text='m', height=2)
         energia_especifica_label.grid(row=3, column=2)
@@ -227,7 +230,35 @@ class TriangularPage(tk.Frame):
             command=lambda: controller.show_frame("StartPage"))
         home_btn.grid(row=18, column=9)
 
+    def get_values(self):
+        Q = self.caudal_entry.get()
+        b = self.ancho_solera_entry.get()
+        Z = self.talud_entry.get()
+
+        try:
+            Q = float(Q)
+            b = float(b)
+            Z = float(Z)
+            return (Q, b, Z)
+        except ValueError:
+            self.error_msg.config(text="Ingrese números válidos")
+            return (1, 1, 1)
+
     def calcular(self):
+        n = 1
+        (Q, b, Z) = self.get_values()
+        y = tirante_critico_triangular(Q, Z)
+        A = area_hidraulica_triangular(y, Z)
+        T = espejo_de_agua_triangular(y, Z)
+        P = perimetro_mojado_triangular(y, Z)
+        R = radio_hidraulico_triangular(y, Z)
+        v = velocidad_triangular(y)
+        E = energia_especifica_triangular(y, v)
+        F = numero_de_froude(v, A, T)
+        S = pendiente_critica(Q, n, A, R)
+
+        print(y, A, T, F, P, R, v, E)
+        print(S)
         print('calcular')
 
     def limpiar(self):
