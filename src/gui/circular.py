@@ -1,8 +1,10 @@
 import tkinter as tk
 from tkinter import font as tkfont
 
+from gui.ecuaciones import numero_de_froude, pendiente_critica, tirante_critico_circular, area_hidraulica_circular, espejo_de_agua_circular, perimetro_mojado_circular, radio_hidraulico_circular, velocidad_circular, energia_especifica_circular
 
 class CircularPage(tk.Frame):
+    internacional = True
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
@@ -29,9 +31,9 @@ class CircularPage(tk.Frame):
         caudal_label.grid(row=1, column=0)
         self.caudal_entry = tk.Entry(datos_frame)
         self.caudal_entry.grid(row=1, column=1)
-        caudal_label = tk.Label(datos_frame, text='m3/s', height=2)
-        caudal_label.grid(row=1, column=2)
-        caudal_label.config(padx=4)
+        self.caudal_label = tk.Label(datos_frame, text='m3/s', height=2)
+        self.caudal_label.grid(row=1, column=2)
+        self.caudal_label.config(padx=4)
 
         # Datos > Ancho de Solera
         ancho_solera_label = tk.Label(
@@ -39,18 +41,27 @@ class CircularPage(tk.Frame):
         ancho_solera_label.grid(row=2, column=0)
         self.ancho_solera_entry = tk.Entry(datos_frame)
         self.ancho_solera_entry.grid(row=2, column=1)
-        ancho_solera_label = tk.Label(datos_frame, text='m', height=2)
-        ancho_solera_label.grid(row=2, column=2)
-        ancho_solera_label.config(padx=4)
+        self.ancho_solera_label = tk.Label(datos_frame, text='m', height=2)
+        self.ancho_solera_label.grid(row=2, column=2)
+        self.ancho_solera_label.config(padx=4)
 
         ## Datos > Talud
         talud_label = tk.Label(datos_frame, text='Talud (Z)', height=2)
         talud_label.grid(row=3, column=0)
         self.talud_entry = tk.Entry(datos_frame)
         self.talud_entry.grid(row=3, column=1)
-        talud_label = tk.Label(datos_frame, text='', height=2)
-        talud_label.grid(row=3, column=2)
-        talud_label.config(padx=4)
+        self.talud_label = tk.Label(datos_frame, text='', height=2)
+        self.talud_label.grid(row=3, column=2)
+        self.talud_label.config(padx=4)
+
+        # Datos > Internacional/Ingles
+        cambio_unidades_btn = tk.Button(
+            datos_frame, text='SI/Ingles',
+            border=2, pady=8,
+            fg='blue',
+            command=self.cambio_unidades
+        )
+        cambio_unidades_btn.grid(row=4, column=0, rowspan=3)
 
         # adding right frame (imagen)
         img_frame = tk.Frame(self, border=2, relief=tk.RAISED)
@@ -99,10 +110,10 @@ class CircularPage(tk.Frame):
         self.tirante_critico_entry = tk.Label(
             results_frame_left, text='00.0000', height=2)
         self.tirante_critico_entry.grid(row=0, column=1)
-        tirante_critico_label = tk.Label(
+        self.tirante_critico_label = tk.Label(
             results_frame_left, text='m', height=2)
-        tirante_critico_label.grid(row=0, column=2)
-        tirante_critico_label.config(padx=4)
+        self.tirante_critico_label.grid(row=0, column=2)
+        self.tirante_critico_label.config(padx=4)
 
         # Resultados > Área hidráulica (A) m2
         area_label = tk.Label(results_frame_left,
@@ -111,9 +122,9 @@ class CircularPage(tk.Frame):
         self.area_entry = tk.Label(
             results_frame_left, text='00.0000', height=2)
         self.area_entry.grid(row=1, column=1)
-        area_label = tk.Label(results_frame_left, text='m2', height=2)
-        area_label.grid(row=1, column=2)
-        area_label.config(padx=4)
+        self.area_label = tk.Label(results_frame_left, text='m2', height=2)
+        self.area_label.grid(row=1, column=2)
+        self.area_label.config(padx=4)
 
         # Resultados > Espejo de agua (T) m
         espejo_agua_label = tk.Label(
@@ -122,9 +133,9 @@ class CircularPage(tk.Frame):
         self.espejo_agua_entry = tk.Label(
             results_frame_left, text='00.0000', height=2)
         self.espejo_agua_entry.grid(row=2, column=1)
-        espejo_agua_label = tk.Label(results_frame_left, text='m', height=2)
-        espejo_agua_label.grid(row=2, column=2)
-        espejo_agua_label.config(padx=4)
+        self.espejo_agua_label = tk.Label(results_frame_left, text='m', height=2)
+        self.espejo_agua_label.grid(row=2, column=2)
+        self.espejo_agua_label.config(padx=4)
 
         # Resultados > Número de Froude
         numero_froude_label = tk.Label(
@@ -133,9 +144,21 @@ class CircularPage(tk.Frame):
         self.numero_froude_entry = tk.Label(
             results_frame_left, text='00.0000', height=2)
         self.numero_froude_entry.grid(row=3, column=1)
-        numero_froude_label = tk.Label(results_frame_left, text='', height=2)
-        numero_froude_label.grid(row=3, column=2)
-        numero_froude_label.config(padx=4)
+        self.numero_froude_label = tk.Label(results_frame_left, text='', height=2)
+        self.numero_froude_label.grid(row=3, column=2)
+        self.numero_froude_label.config(padx=4)
+
+        # Resultados > Pendiente hidráulica
+        pendiente_hidraulica_label = tk.Label(
+            results_frame_left, text='Pendiente hidráulica', height=2)
+        pendiente_hidraulica_label.grid(row=4, column=0)
+        # pendiente_hidraulica_entry = tk.Entry(results_frame_left)
+        self.pendiente_hidraulica_entry = tk.Label(
+            results_frame_left, text='00.0000', height=2)
+        self.pendiente_hidraulica_entry.grid(row=4, column=1)
+        self.pendiente_hidraulica_label = tk.Label(results_frame_left, text='', height=2)
+        self.pendiente_hidraulica_label.grid(row=4, column=2)
+        self.pendiente_hidraulica_label.config(padx=4)
 
         # adding bottom right frame (datos)
         results_frame_right = tk.Frame(
@@ -153,9 +176,9 @@ class CircularPage(tk.Frame):
         self.perimetro_entry = tk.Label(
             results_frame_right, text='00.0000', height=2)
         self.perimetro_entry.grid(row=0, column=1)
-        perimetro_label = tk.Label(results_frame_right, text='m', height=2)
-        perimetro_label.grid(row=0, column=2)
-        perimetro_label.config(padx=4)
+        self.perimetro_label = tk.Label(results_frame_right, text='m', height=2)
+        self.perimetro_label.grid(row=0, column=2)
+        self.perimetro_label.config(padx=4)
 
         # Resultados > Radio hidráulico m
         radio_hidraulico_label = tk.Label(
@@ -165,10 +188,10 @@ class CircularPage(tk.Frame):
         self.radio_hidraulico_entry = tk.Label(
             results_frame_right, text='00.0000', height=2)
         self.radio_hidraulico_entry.grid(row=1, column=1)
-        radio_hidraulico_label = tk.Label(
+        self.radio_hidraulico_label = tk.Label(
             results_frame_right, text='m', height=2)
-        radio_hidraulico_label.grid(row=1, column=2)
-        radio_hidraulico_label.config(padx=4)
+        self.radio_hidraulico_label.grid(row=1, column=2)
+        self.radio_hidraulico_label.config(padx=4)
 
         ## Resultados > Velocidad
         velocidad_label = tk.Label(
@@ -178,9 +201,9 @@ class CircularPage(tk.Frame):
         self.velocidad_entry = tk.Label(
             results_frame_right, text='00.0000', height=2)
         self.velocidad_entry.grid(row=2, column=1)
-        velocidad_label = tk.Label(results_frame_right, text='m/s', height=2)
-        velocidad_label.grid(row=2, column=2)
-        velocidad_label.config(padx=4)
+        self.velocidad_label = tk.Label(results_frame_right, text='m/s', height=2)
+        self.velocidad_label.grid(row=2, column=2)
+        self.velocidad_label.config(padx=4)
 
         # Resultados > Energía específica
         energia_especifica_label = tk.Label(
@@ -190,10 +213,10 @@ class CircularPage(tk.Frame):
         self.energia_especifica_entry = tk.Label(
             results_frame_right, text='00.0000', height=2)
         self.energia_especifica_entry.grid(row=3, column=1)
-        energia_especifica_label = tk.Label(
+        self.energia_especifica_label = tk.Label(
             results_frame_right, text='m', height=2)
-        energia_especifica_label.grid(row=3, column=2)
-        energia_especifica_label.config(padx=4)
+        self.energia_especifica_label.grid(row=3, column=2)
+        self.energia_especifica_label.config(padx=4)
 
         calcular_btn = tk.Button(
             self, text='Calcular',
@@ -246,8 +269,30 @@ class CircularPage(tk.Frame):
         return (Q, b, Z)
 
     def calcular(self):
+        n = 1
         (Q, b, Z) = self.get_values()
-        print(Q, b, Z)
+        y = tirante_critico_circular(Q, b, self.internacional)
+        A = area_hidraulica_circular(b, y, self.internacional)
+        T = espejo_de_agua_circular(b, self.internacional)
+        P = perimetro_mojado_circular(b, y, self.internacional)
+        R = radio_hidraulico_circular(b, y, self.internacional)
+        v = velocidad_circular(y, self.internacional)
+        E = energia_especifica_circular(y, v, self.internacional)
+        F = numero_de_froude(v, A, T, self.internacional)
+        S = pendiente_critica(Q, n, A, R, self.internacional)
+
+        ## mostrando los datos en la GUI
+        self.tirante_critico_entry.config(text=y)
+        self.area_entry.config(text=A)
+        self.espejo_agua_entry.config(text=T)
+        self.numero_froude_entry.config(text=F)
+        self.pendiente_hidraulica_entry.config(text=S)
+        self.perimetro_entry.config(text=P)
+        self.velocidad_entry.config(text=v)
+        self.energia_especifica_entry.config(text=E)
+
+        print(y, A, T, F, P, R, v, E)
+        print(S)
 
         print('calcular')
 
@@ -262,3 +307,16 @@ class CircularPage(tk.Frame):
 
     def exportar(self):
         print('exportar')
+
+    def cambio_unidades(self):
+        self.internacional = not self.internacional
+        if self.internacional:
+            self.caudal_label.config(text="m3/s")
+            self.ancho_solera_label.config(text="m")
+            self.talud_entry.config(text="")
+
+        else:
+            self.caudal_label.config(text="ft3/s")
+            self.ancho_solera_label.config(text="ft")
+            self.talud_entry.config(text="")
+        print('cambio unidades')

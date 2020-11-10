@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import font as tkfont
 
+from gui.ecuaciones import numero_de_froude, pendiente_critica, tirante_critico_trapezoidal, area_hidraulica_trapezoidal, espejo_de_agua_trapezoidal, perimetro_mojado_trapezoidal, radio_hidraulico_trapezoidal, velocidad_trapezoidal, energia_especifica_trapezoidal
 
 class TrapecioPage(tk.Frame):
 
@@ -27,30 +28,39 @@ class TrapecioPage(tk.Frame):
         ## Datos > Caudal
         caudal_label = tk.Label(datos_frame, text='Caudal (Q)', height=2)
         caudal_label.grid(row=1, column=0)
-        caudal_entry = tk.Entry(datos_frame)
-        caudal_entry.grid(row=1, column=1)
-        caudal_label = tk.Label(datos_frame, text='m3/s', height=2)
-        caudal_label.grid(row=1, column=2)
-        caudal_label.config(padx=4)
+        self.caudal_entry = tk.Entry(datos_frame)
+        self.caudal_entry.grid(row=1, column=1)
+        self.caudal_label = tk.Label(datos_frame, text='m3/s', height=2)
+        self.caudal_label.grid(row=1, column=2)
+        self.caudal_label.config(padx=4)
 
         # Datos > Ancho de Solera
         ancho_solera_label = tk.Label(
             datos_frame, text='Ancho de solera (b)', height=2)
         ancho_solera_label.grid(row=2, column=0)
-        ancho_solera_entry = tk.Entry(datos_frame)
-        ancho_solera_entry.grid(row=2, column=1)
-        ancho_solera_label = tk.Label(datos_frame, text='m', height=2)
-        ancho_solera_label.grid(row=2, column=2)
-        ancho_solera_label.config(padx=4)
+        self.ancho_solera_entry = tk.Entry(datos_frame)
+        self.ancho_solera_entry.grid(row=2, column=1)
+        self.ancho_solera_label = tk.Label(datos_frame, text='m', height=2)
+        self.ancho_solera_label.grid(row=2, column=2)
+        self.ancho_solera_label.config(padx=4)
 
         ## Datos > Talud
         talud_label = tk.Label(datos_frame, text='Talud (Z)', height=2)
         talud_label.grid(row=3, column=0)
-        talud_entry = tk.Entry(datos_frame)
-        talud_entry.grid(row=3, column=1)
-        talud_label = tk.Label(datos_frame, text='', height=2)
-        talud_label.grid(row=3, column=2)
-        talud_label.config(padx=4)
+        self.talud_entry = tk.Entry(datos_frame)
+        self.talud_entry.grid(row=3, column=1)
+        self.talud_label = tk.Label(datos_frame, text='', height=2)
+        self.talud_label.grid(row=3, column=2)
+        self.talud_label.config(padx=4)
+
+        # Datos > Internacional/Ingles
+        cambio_unidades_btn = tk.Button(
+            datos_frame, text='SI/Ingles',
+            border=2, pady=8,
+            fg='blue',
+            command=self.cambio_unidades
+        )
+        cambio_unidades_btn.grid(row=3, column=0, rowspan=3)
 
         # adding right frame (imagen)
         img_frame = tk.Frame(self, border=2, relief=tk.RAISED)
@@ -97,49 +107,61 @@ class TrapecioPage(tk.Frame):
         tirante_critico_label = tk.Label(
             results_frame_left, text='Tirante crítico (y)', height=2)
         tirante_critico_label.grid(row=0, column=0)
-        tirante_critico_entry = tk.Entry(results_frame_left)
-        tirante_critico_entry = tk.Label(
+        self.tirante_critico_entry = tk.Entry(results_frame_left)
+        self.tirante_critico_entry = tk.Label(
             results_frame_left, text='00.0000', height=2)
-        tirante_critico_entry.grid(row=0, column=1)
-        tirante_critico_label = tk.Label(
+        self.tirante_critico_entry.grid(row=0, column=1)
+        self.tirante_critico_label = tk.Label(
             results_frame_left, text='m', height=2)
-        tirante_critico_label.grid(row=0, column=2)
-        tirante_critico_label.config(padx=4)
+        self.tirante_critico_label.grid(row=0, column=2)
+        self.tirante_critico_label.config(padx=4)
 
         # Resultados > Área hidráulica (A) m2
         area_label = tk.Label(results_frame_left,
                               text='Área hidráulica (A)', height=2)
         area_label.grid(row=1, column=0)
         # area_entry = tk.Entry(results_frame_left)
-        area_entry = tk.Label(results_frame_left, text='00.0000', height=2)
-        area_entry.grid(row=1, column=1)
-        area_label = tk.Label(results_frame_left, text='m2', height=2)
-        area_label.grid(row=1, column=2)
-        area_label.config(padx=4)
+        self.area_entry = tk.Label(results_frame_left, text='00.0000', height=2)
+        self.area_entry.grid(row=1, column=1)
+        self.area_label = tk.Label(results_frame_left, text='m2', height=2)
+        self.area_label.grid(row=1, column=2)
+        self.area_label.config(padx=4)
 
         # Resultados > Espejo de agua (T) m
         espejo_agua_label = tk.Label(
             results_frame_left, text='Espejo de agua (T)', height=2)
         espejo_agua_label.grid(row=2, column=0)
         # espejo_agua_entry = tk.Entry(results_frame_left)
-        espejo_agua_entry = tk.Label(
+        self.espejo_agua_entry = tk.Label(
             results_frame_left, text='00.0000', height=2)
-        espejo_agua_entry.grid(row=2, column=1)
-        espejo_agua_label = tk.Label(results_frame_left, text='m', height=2)
-        espejo_agua_label.grid(row=2, column=2)
-        espejo_agua_label.config(padx=4)
+        self.espejo_agua_entry.grid(row=2, column=1)
+        self.espejo_agua_label = tk.Label(results_frame_left, text='m', height=2)
+        self.espejo_agua_label.grid(row=2, column=2)
+        self.espejo_agua_label.config(padx=4)
 
         # Resultados > Número de Froude
         numero_froude_label = tk.Label(
             results_frame_left, text='Número de Froude', height=2)
         numero_froude_label.grid(row=3, column=0)
         # numero_froude_entry = tk.Entry(results_frame_left)
-        numero_froude_entry = tk.Label(
+        self.numero_froude_entry = tk.Label(
             results_frame_left, text='00.0000', height=2)
-        numero_froude_entry.grid(row=3, column=1)
-        numero_froude_label = tk.Label(results_frame_left, text='', height=2)
-        numero_froude_label.grid(row=3, column=2)
-        numero_froude_label.config(padx=4)
+        self.numero_froude_entry.grid(row=3, column=1)
+        self.numero_froude_label = tk.Label(results_frame_left, text='', height=2)
+        self.numero_froude_label.grid(row=3, column=2)
+        self.numero_froude_label.config(padx=4)
+
+        # Resultados > Pendiente hidráulica
+        pendiente_hidraulica_label = tk.Label(
+            results_frame_left, text='Pendiente hidráulica', height=2)
+        pendiente_hidraulica_label.grid(row=4, column=0)
+        # pendiente_hidraulica_entry = tk.Entry(results_frame_left)
+        self.pendiente_hidraulica_entry = tk.Label(
+            results_frame_left, text='00.0000', height=2)
+        self.pendiente_hidraulica_entry.grid(row=4, column=1)
+        self.pendiente_hidraulica_label = tk.Label(results_frame_left, text='', height=2)
+        self.pendiente_hidraulica_label.grid(row=4, column=2)
+        self.pendiente_hidraulica_label.config(padx=4)
 
         # adding bottom right frame (datos)
         results_frame_right = tk.Frame(bottom_frame, border=2, relief=tk.RAISED)
@@ -152,47 +174,47 @@ class TrapecioPage(tk.Frame):
         perimetro_label = tk.Label(
             results_frame_right, text='Perímetro (p)', height=2)
         perimetro_label.grid(row=0, column=0)
-        perimetro_entry = tk.Entry(results_frame_right)
+        self.perimetro_entry = tk.Entry(results_frame_right)
         # perimetro_entry = tk.Label(results_frame_right, text='00.0000', height=2)
-        perimetro_entry.grid(row=0, column=1)
-        perimetro_label = tk.Label(results_frame_right, text='m', height=2)
-        perimetro_label.grid(row=0, column=2)
-        perimetro_label.config(padx=4)
+        self.perimetro_entry.grid(row=0, column=1)
+        self.perimetro_label = tk.Label(results_frame_right, text='m', height=2)
+        self.perimetro_label.grid(row=0, column=2)
+        self.perimetro_label.config(padx=4)
 
         # Resultados > Radio hidráulico m
         radio_hidraulico_label = tk.Label(
             results_frame_right, text='Radio hidráulico (R)', height=2)
         radio_hidraulico_label.grid(row=1, column=0)
-        radio_hidraulico_entry = tk.Entry(results_frame_right)
+        self.radio_hidraulico_entry = tk.Entry(results_frame_right)
         # radio_hidraulico_entry = tk.Label(results_frame_right, text='00.0000', height=2)
-        radio_hidraulico_entry.grid(row=1, column=1)
-        radio_hidraulico_label = tk.Label(
+        self.radio_hidraulico_entry.grid(row=1, column=1)
+        self.radio_hidraulico_label = tk.Label(
             results_frame_right, text='m', height=2)
-        radio_hidraulico_label.grid(row=1, column=2)
-        radio_hidraulico_label.config(padx=4)
+        self.radio_hidraulico_label.grid(row=1, column=2)
+        self.radio_hidraulico_label.config(padx=4)
 
         ## Resultados > Velocidad
         velocidad_label = tk.Label(
             results_frame_right, text='Velocidad', height=2)
         velocidad_label.grid(row=2, column=0)
-        velocidad_entry = tk.Entry(results_frame_right)
+        self.velocidad_entry = tk.Entry(results_frame_right)
         # velocidad_entry = tk.Label(results_frame_right, text='00.0000', height=2)
-        velocidad_entry.grid(row=2, column=1)
-        velocidad_label = tk.Label(results_frame_right, text='m/s', height=2)
-        velocidad_label.grid(row=2, column=2)
-        velocidad_label.config(padx=4)
+        self.velocidad_entry.grid(row=2, column=1)
+        self.velocidad_label = tk.Label(results_frame_right, text='m/s', height=2)
+        self.velocidad_label.grid(row=2, column=2)
+        self.velocidad_label.config(padx=4)
 
         # Resultados > Energía específica
         energia_especifica_label = tk.Label(
             results_frame_right, text='Energía específica (E)', height=2)
         energia_especifica_label.grid(row=3, column=0)
-        energia_especifica_entry = tk.Entry(results_frame_right)
+        self.energia_especifica_entry = tk.Entry(results_frame_right)
         # energia_especifica_entry = tk.Label(results_frame_right, text='00.0000', height=2)
-        energia_especifica_entry.grid(row=3, column=1)
-        energia_especifica_label = tk.Label(
+        self.energia_especifica_entry.grid(row=3, column=1)
+        self.energia_especifica_label = tk.Label(
             results_frame_right, text='m', height=2)
-        energia_especifica_label.grid(row=3, column=2)
-        energia_especifica_label.config(padx=4)
+        self.energia_especifica_label.grid(row=3, column=2)
+        self.energia_especifica_label.config(padx=4)
 
         calcular_btn = tk.Button(
             self, text='Calcular',
@@ -226,11 +248,59 @@ class TrapecioPage(tk.Frame):
             command=lambda: controller.show_frame("StartPage"))
         home_btn.grid(row=18, column=9)
 
+        self.error_msg = tk.Label(
+            self, height=2, fg='red', font=controller.button_font)
+        self.error_msg.grid(row=19, column=0, columnspan=12)
+
     def calcular(self):
+        n = 1
+        (Q, b, Z) = self.get_values()
+        y = tirante_critico_trapezoidal(Q, b, self.internacional)
+        A = area_hidraulica_trapezoidal(b, y, self.internacional)
+        T = espejo_de_agua_trapezoidal(b, self.internacional)
+        P = perimetro_mojado_trapezoidal(b, y, self.internacional)
+        R = radio_hidraulico_trapezoidal(b, y, self.internacional)
+        v = velocidad_trapezoidal(y, self.internacional)
+        E = energia_especifica_trapezoidal(y, v, self.internacional)
+        F = numero_de_froude(v, A, T, self.internacional)
+        S = pendiente_critica(Q, n, A, R, self.internacional)
+
+        ## mostrando los datos en la GUI
+        self.tirante_critico_entry.config(text=y)
+        self.area_entry.config(text=A)
+        self.espejo_agua_entry.config(text=T)
+        self.numero_froude_entry.config(text=F)
+        self.pendiente_hidraulica_entry.config(text=S)
+        self.perimetro_entry.config(text=P)
+        self.velocidad_entry.config(text=v)
+        self.energia_especifica_entry.config(text=E)
+
+        print(y, A, T, F, P, R, v, E)
+        print(S)
+
         print('calcular')
 
     def limpiar(self):
+        self.caudal_entry.delete(0, tk.END)
+        self.caudal_entry.insert(0, '')
+        self.ancho_solera_entry.delete(0, tk.END)
+        self.ancho_solera_entry.insert(0, '')
+        self.talud_entry.delete(0, tk.END)
+        self.talud_entry.insert(0, '')
         print('limpiar')
 
     def exportar(self):
         print('exportar')
+
+    def cambio_unidades(self):
+        self.internacional = not self.internacional
+        if self.internacional:
+            self.caudal_label.config(text="m3/s")
+            self.ancho_solera_label.config(text="m")
+            self.talud_entry.config(text="")
+
+        else:
+            self.caudal_label.config(text="ft3/s")
+            self.ancho_solera_label.config(text="ft")
+            self.talud_entry.config(text="")
+        print('cambio unidades')

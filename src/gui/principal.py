@@ -10,11 +10,7 @@ from gui.triangular import TriangularPage
 class HCanalesApp(tk.Tk):
     height = 720
     width = 1080
-    # title_font = tkfont.Font(
-    # family='Helvetica', size=18, weight="bold", slant="italic")
-    # button_font = tkfont.Font(
-    # family='Helvetica', size=14, weight="bold")
-
+  
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
 
@@ -28,9 +24,6 @@ class HCanalesApp(tk.Tk):
         self.button_font = tkfont.Font(
             family='Helvetica', size=14, weight="bold")
 
-        # the container is where we'll stack a bunch of frames
-        # on top of each other, then the one we want visible
-        # will be raised above the others
         container = tk.Frame(self)
         container.grid(row=0, column=0, sticky='news')
         container.rowconfigure(0, weight=1)
@@ -42,15 +35,11 @@ class HCanalesApp(tk.Tk):
             frame = F(parent=container, controller=self)
             self.frames[page_name] = frame
 
-            # put all of the pages in the same location;
-            # the one on the top of the stacking order
-            # will be the one that is visible.
             frame.grid(row=0, column=0, sticky="nsew")
 
         self.show_frame("StartPage")
 
     def show_frame(self, page_name):
-        '''Show a frame for the given page name'''
         frame = self.frames[page_name]
         frame.tkraise()
 
