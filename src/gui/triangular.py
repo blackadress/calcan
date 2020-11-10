@@ -258,7 +258,7 @@ class TriangularPage(tk.Frame):
         A = area_hidraulica_triangular(y, Z, self.internacional)
         T = espejo_de_agua_triangular(y, Z, self.internacional)
         P = perimetro_mojado_triangular(y, Z, self.internacional)
-        R = radio_hidraulico_triangular(y, Z, self.internacional)
+        R = radio_hidraulico_triangular(A, P, self.internacional)
         v = velocidad_triangular(y, self.internacional)
         E = energia_especifica_triangular(y, v, self.internacional)
         F = numero_de_froude(v, A, T, self.internacional)
@@ -271,6 +271,7 @@ class TriangularPage(tk.Frame):
         self.numero_froude_entry.config(text=F)
         self.pendiente_hidraulica_entry.config(text=S)
         self.perimetro_entry.config(text=P)
+        self.radio_hidraulico_entry.config(text=R)
         self.velocidad_entry.config(text=v)
         self.energia_especifica_entry.config(text=E)
 

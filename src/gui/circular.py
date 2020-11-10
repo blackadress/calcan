@@ -288,6 +288,7 @@ class CircularPage(tk.Frame):
         self.numero_froude_entry.config(text=F)
         self.pendiente_hidraulica_entry.config(text=S)
         self.perimetro_entry.config(text=P)
+        self.radio_hidraulico_entry.config(text=R)
         self.velocidad_entry.config(text=v)
         self.energia_especifica_entry.config(text=E)
 

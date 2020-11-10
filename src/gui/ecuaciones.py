@@ -1,11 +1,11 @@
 ## CONSTANTES
-ROUND_DIGITS = 4
+ROUND_DIGITS = 5
 GRAVITY = 9.80665
 GRAVITY_ENG = 32.17404856
 
 ## COMUN
 # F
-def numero_de_froude(v, A, T, SI=True):
+def numero_de_froude(v, A, T, SI):
     if SI:
         gravity = GRAVITY
     else:
@@ -47,8 +47,8 @@ def perimetro_mojado_triangular(y, z, SI=True):
     return round(res, ROUND_DIGITS)
 
 # R
-def radio_hidraulico_triangular(y, z, SI=True):
-    res = z * y / (2 * (1 + z**2)**(1/2))
+def radio_hidraulico_triangular(A, P, SI=True):
+    res = A / P
     return round(res, ROUND_DIGITS)
 
 # v

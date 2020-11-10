@@ -79,7 +79,7 @@ class StartPage(tk.Frame):
             fg='green', font=controller.button_font,
             command=lambda: controller.show_frame("TrapecioPage"))
 
-        page_triangular_button.grid(row=1, column=0, pady=10)
-        page_rectangular_button.grid(row=2, column=0, pady=10)
-        page_circular_button.grid(row=3, column=0, pady=10)
-        page_trapecio_button.grid(row=4, column=0, pady=10)
+        page_triangular_button.grid(row=1, column=0, pady=30)
+        page_rectangular_button.grid(row=2, column=0, pady=30)
+        page_circular_button.grid(row=3, column=0, pady=30)
+        page_trapecio_button.grid(row=4, column=0, pady=30)
