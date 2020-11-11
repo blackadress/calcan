@@ -15,14 +15,14 @@ def numero_de_froude(v, A, T, SI):
     return round(res, ROUND_DIGITS)
 
 # S
-def pendiente_critica(Q, n, A, R, SI=True):
+def pendiente_critica(Q, n, A, R, SI):
     res = ((Q * n) / (A * R**(2/3)))**(1/2)
     return round(res, ROUND_DIGITS)
 
 
 ## TRIANGULAR
 # y
-def tirante_critico_triangular(Q, z, SI=True):
+def tirante_critico_triangular(Q, z, SI):
     if SI:
         gravity = GRAVITY
     else:
@@ -32,27 +32,27 @@ def tirante_critico_triangular(Q, z, SI=True):
     return round(res, ROUND_DIGITS)
 
 # A
-def area_hidraulica_triangular(y, z, SI=True):
+def area_hidraulica_triangular(y, z, SI):
     res = (z * y**2)
     return round(res, ROUND_DIGITS)
 
 # T
-def espejo_de_agua_triangular(y, z, SI=True):
+def espejo_de_agua_triangular(y, z, SI):
     res = 2 * z * y
     return round(res, ROUND_DIGITS)
 
 # P
-def perimetro_mojado_triangular(y, z, SI=True):
+def perimetro_mojado_triangular(y, z, SI):
     res = 2 * y * (1 + z**2)**(1/2)
     return round(res, ROUND_DIGITS)
 
 # R
-def radio_hidraulico_triangular(A, P, SI=True):
+def radio_hidraulico_triangular(A, P, SI):
     res = A / P
     return round(res, ROUND_DIGITS)
 
 # v
-def velocidad_triangular(y, SI=True):
+def velocidad_triangular(y, SI):
     if SI:
         gravity = GRAVITY
     else:
@@ -62,7 +62,7 @@ def velocidad_triangular(y, SI=True):
     return round(res, ROUND_DIGITS)
 
 # E
-def energia_especifica_triangular(y, v, SI=True):
+def energia_especifica_triangular(y, v, SI):
     if SI:
         gravity = GRAVITY
     else:
@@ -74,7 +74,7 @@ def energia_especifica_triangular(y, v, SI=True):
 
 ## RECTANGULAR
 # y
-def tirante_critico_rectangular(Q, b, SI=True):
+def tirante_critico_rectangular(Q, b, SI):
     if SI:
         gravity = GRAVITY
     else:
@@ -84,27 +84,27 @@ def tirante_critico_rectangular(Q, b, SI=True):
     return round(res, ROUND_DIGITS)
 
 # A
-def area_hidraulica_rectangular(b, y, SI=True):
+def area_hidraulica_rectangular(b, y, SI):
     res = (b * y)
     return round(res, ROUND_DIGITS)
 
 # T
-def espejo_de_agua_rectangular(b, SI=True):
+def espejo_de_agua_rectangular(b, SI):
     res = b
     return round(res, ROUND_DIGITS)
 
 # P
-def perimetro_mojado_rectangular(b, y, SI=True):
+def perimetro_mojado_rectangular(b, y, SI):
     res = b + 2 * y
     return round(res, ROUND_DIGITS)
 
 # R
-def radio_hidraulico_rectangular(b, y, SI=True):
+def radio_hidraulico_rectangular(b, y, SI):
     res = (b * y) / (b + 2 * y)
     return round(res, ROUND_DIGITS)
 
 # v
-def velocidad_rectangular(y, SI=True):
+def velocidad_rectangular(y, SI):
     if SI:
         gravity = GRAVITY
     else:
@@ -114,7 +114,7 @@ def velocidad_rectangular(y, SI=True):
     return round(res, ROUND_DIGITS)
 
 # E
-def energia_especifica_rectangular(y, v, SI=True):
+def energia_especifica_rectangular(y, v, SI):
     if SI:
         gravity = GRAVITY
     else:
@@ -126,7 +126,7 @@ def energia_especifica_rectangular(y, v, SI=True):
 
 ## TRAPEZOIDAL
 # y
-def tirante_critico_trapezoidal(Q, b, SI=True):
+def tirante_critico_trapezoidal(Q, b, SI):
     if SI:
         gravity = GRAVITY
     else:
@@ -136,7 +136,7 @@ def tirante_critico_trapezoidal(Q, b, SI=True):
     return round(res, ROUND_DIGITS)
 
 # A
-def area_hidraulica_trapezoidal(b, y, SI=True):
+def area_hidraulica_trapezoidal(b, y, SI):
     if SI:
         gravity = GRAVITY
     else:
@@ -146,7 +146,7 @@ def area_hidraulica_trapezoidal(b, y, SI=True):
     return round(res, ROUND_DIGITS)
 
 # T
-def espejo_de_agua_trapezoidal(b, SI=True):
+def espejo_de_agua_trapezoidal(b, SI):
     if SI:
         gravity = GRAVITY
     else:
@@ -156,7 +156,7 @@ def espejo_de_agua_trapezoidal(b, SI=True):
     return round(res, ROUND_DIGITS)
 
 # P
-def perimetro_mojado_trapezoidal(b, y, SI=True):
+def perimetro_mojado_trapezoidal(b, y, SI):
     if SI:
         gravity = GRAVITY
     else:
@@ -166,7 +166,7 @@ def perimetro_mojado_trapezoidal(b, y, SI=True):
     return round(res, ROUND_DIGITS)
 
 # R
-def radio_hidraulico_trapezoidal(b, y, SI=True):
+def radio_hidraulico_trapezoidal(b, y, SI):
     if SI:
         gravity = GRAVITY
     else:
@@ -176,7 +176,7 @@ def radio_hidraulico_trapezoidal(b, y, SI=True):
     return round(res, ROUND_DIGITS)
 
 # v
-def velocidad_trapezoidal(y, SI=True):
+def velocidad_trapezoidal(y, SI):
     if SI:
         gravity = GRAVITY
     else:
@@ -186,7 +186,7 @@ def velocidad_trapezoidal(y, SI=True):
     return round(res, ROUND_DIGITS)
 
 # E
-def energia_especifica_trapezoidal(y, v, SI=True):
+def energia_especifica_trapezoidal(y, v, SI):
     if SI:
         gravity = GRAVITY
     else:
@@ -198,7 +198,7 @@ def energia_especifica_trapezoidal(y, v, SI=True):
 
 ## TRAPEZOIDAL
 # y
-def tirante_critico_circular(Q, b, SI=True):
+def tirante_critico_circular(Q, b, SI):
     if SI:
         gravity = GRAVITY
     else:
@@ -208,7 +208,7 @@ def tirante_critico_circular(Q, b, SI=True):
     return round(res, ROUND_DIGITS)
 
 # A
-def area_hidraulica_circular(b, y, SI=True):
+def area_hidraulica_circular(b, y, SI):
     if SI:
         gravity = GRAVITY
     else:
@@ -218,7 +218,7 @@ def area_hidraulica_circular(b, y, SI=True):
     return round(res, ROUND_DIGITS)
 
 # T
-def espejo_de_agua_circular(b, SI=True):
+def espejo_de_agua_circular(b, SI):
     if SI:
         gravity = GRAVITY
     else:
@@ -228,7 +228,7 @@ def espejo_de_agua_circular(b, SI=True):
     return round(res, ROUND_DIGITS)
 
 # P
-def perimetro_mojado_circular(b, y, SI=True):
+def perimetro_mojado_circular(b, y, SI):
     if SI:
         gravity = GRAVITY
     else:
@@ -238,7 +238,7 @@ def perimetro_mojado_circular(b, y, SI=True):
     return round(res, ROUND_DIGITS)
 
 # R
-def radio_hidraulico_circular(b, y, SI=True):
+def radio_hidraulico_circular(b, y, SI):
     if SI:
         gravity = GRAVITY
     else:
@@ -248,7 +248,7 @@ def radio_hidraulico_circular(b, y, SI=True):
     return round(res, ROUND_DIGITS)
 
 # v
-def velocidad_circular(y, SI=True):
+def velocidad_circular(y, SI):
     if SI:
         gravity = GRAVITY
     else:
@@ -258,7 +258,7 @@ def velocidad_circular(y, SI=True):
     return round(res, ROUND_DIGITS)
 
 # E
-def energia_especifica_circular(y, v, SI=True):
+def energia_especifica_circular(y, v, SI):
     if SI:
         gravity = GRAVITY
     else:

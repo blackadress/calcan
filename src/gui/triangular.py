@@ -295,7 +295,28 @@ class TriangularPage(tk.Frame):
             self.caudal_label.config(text="m3/s")
             self.talud_label.config(text="m")
 
+            self.tirante_critico_label.config(text="m")
+            self.area_label.config(text="m2")
+            self.espejo_agua_label.config(text="m")
+            self.numero_froude_label.config(text="")
+            self.pendiente_hidraulica_label.config(text="")
+            self.perimetro_label.config(text="m")
+            self.radio_hidraulico_label.config(text="m")
+            self.velocidad_label.config(text="m/s")
+            self.energia_especifica_label.config(text="m-Kg/Kg")
+
         else:
             self.caudal_label.config(text="ft3/s")
             self.talud_label.config(text="ft")
+
+            self.tirante_critico_label.config(text="ft")
+            self.area_label.config(text="ft2")
+            self.espejo_agua_label.config(text="ft")
+            self.numero_froude_label.config(text="")
+            self.pendiente_hidraulica_label.config(text="")
+            self.perimetro_label.config(text="ft")
+            self.radio_hidraulico_label.config(text="ft")
+            self.velocidad_label.config(text="ft/s")
+            self.energia_especifica_label.config(text="ft-Kg/Kg")
+
         print('cambio unidades')

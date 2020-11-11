@@ -70,13 +70,6 @@ class CircularPage(tk.Frame):
         img_frame.config(border=2)
         img_frame.columnconfigure(0, weight=1)
 
-        ## Img > label_img
-        # PIL
-        # img= ImageTk.PhotoImage(Image.open("img/rectangular.png"))
-        # img = img.resize((300, 250), Image.ANTIALIAS)
-        # img = ImageTk.PhotoImage(img)
-        # img_label = tk.Label(image=img)
-
         # no PIL
         img = tk.PhotoImage(file='img/rectangular.png')
         img_label = tk.Label(img_frame)
@@ -316,8 +309,29 @@ class CircularPage(tk.Frame):
             self.ancho_solera_label.config(text="m")
             self.talud_entry.config(text="")
 
+            self.tirante_critico_label.config(text="m")
+            self.area_label.config(text="m2")
+            self.espejo_agua_label.config(text="m")
+            self.numero_froude_label.config(text="")
+            self.pendiente_hidraulica_label.config(text="")
+            self.perimetro_label.config(text="m")
+            self.radio_hidraulico_label.config(text="m")
+            self.velocidad_label.config(text="m/s")
+            self.energia_especifica_label.config(text="m-Kg/Kg")
+
         else:
             self.caudal_label.config(text="ft3/s")
             self.ancho_solera_label.config(text="ft")
             self.talud_entry.config(text="")
+
+            self.tirante_critico_label.config(text="ft")
+            self.area_label.config(text="ft2")
+            self.espejo_agua_label.config(text="ft")
+            self.numero_froude_label.config(text="")
+            self.pendiente_hidraulica_label.config(text="")
+            self.perimetro_label.config(text="ft")
+            self.radio_hidraulico_label.config(text="ft")
+            self.velocidad_label.config(text="ft/s")
+            self.energia_especifica_label.config(text="ft-Kg/Kg")
+
         print('cambio unidades')
