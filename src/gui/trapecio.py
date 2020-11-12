@@ -175,8 +175,8 @@ class TrapecioPage(tk.Frame):
         perimetro_label = tk.Label(
             results_frame_right, text='Perímetro (p)', height=2)
         perimetro_label.grid(row=0, column=0)
-        self.perimetro_entry = tk.Entry(results_frame_right)
-        # perimetro_entry = tk.Label(results_frame_right, text='00.0000', height=2)
+        # self.perimetro_entry = tk.Entry(results_frame_right)
+        self.perimetro_entry = tk.Label(results_frame_right, text='00.0000', height=2)
         self.perimetro_entry.grid(row=0, column=1)
         self.perimetro_label = tk.Label(results_frame_right, text='m', height=2)
         self.perimetro_label.grid(row=0, column=2)
@@ -186,8 +186,8 @@ class TrapecioPage(tk.Frame):
         radio_hidraulico_label = tk.Label(
             results_frame_right, text='Radio hidráulico (R)', height=2)
         radio_hidraulico_label.grid(row=1, column=0)
-        self.radio_hidraulico_entry = tk.Entry(results_frame_right)
-        # radio_hidraulico_entry = tk.Label(results_frame_right, text='00.0000', height=2)
+        # self.radio_hidraulico_entry = tk.Entry(results_frame_right)
+        self.radio_hidraulico_entry = tk.Label(results_frame_right, text='00.0000', height=2)
         self.radio_hidraulico_entry.grid(row=1, column=1)
         self.radio_hidraulico_label = tk.Label(
             results_frame_right, text='m', height=2)
@@ -198,8 +198,8 @@ class TrapecioPage(tk.Frame):
         velocidad_label = tk.Label(
             results_frame_right, text='Velocidad', height=2)
         velocidad_label.grid(row=2, column=0)
-        self.velocidad_entry = tk.Entry(results_frame_right)
-        # velocidad_entry = tk.Label(results_frame_right, text='00.0000', height=2)
+        # self.velocidad_entry = tk.Entry(results_frame_right)
+        self.velocidad_entry = tk.Label(results_frame_right, text='00.0000', height=2)
         self.velocidad_entry.grid(row=2, column=1)
         self.velocidad_label = tk.Label(results_frame_right, text='m/s', height=2)
         self.velocidad_label.grid(row=2, column=2)
@@ -209,8 +209,8 @@ class TrapecioPage(tk.Frame):
         energia_especifica_label = tk.Label(
             results_frame_right, text='Energía específica (E)', height=2)
         energia_especifica_label.grid(row=3, column=0)
-        self.energia_especifica_entry = tk.Entry(results_frame_right)
-        # energia_especifica_entry = tk.Label(results_frame_right, text='00.0000', height=2)
+        # self.energia_especifica_entry = tk.Entry(results_frame_right)
+        energia_especifica_entry = tk.Label(results_frame_right, text='00.0000', height=2)
         self.energia_especifica_entry.grid(row=3, column=1)
         self.energia_especifica_label = tk.Label(
             results_frame_right, text='m', height=2)
