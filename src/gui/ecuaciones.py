@@ -2,6 +2,7 @@
 ROUND_DIGITS = 5
 GRAVITY = 9.80665
 GRAVITY_ENG = 32.17404856
+ERROR = 0.00001
 
 ## COMUN
 # F
@@ -126,13 +127,35 @@ def energia_especifica_rectangular(y, v, SI):
 
 ## TRAPEZOIDAL
 # y
-def tirante_critico_trapezoidal(Q, b, SI):
+def tirante_critico_trapezoidal(Q, b, z, SI):
     if SI:
         gravity = GRAVITY
     else:
         gravity = GRAVITY_ENG
 
-    res = 0
+    def fun_y(y):
+        return gravity * z * y**2 + (gravity * b - 2 * Q**2 * z) * y - b*Q**2 
+    def dif_fun_y(y):
+        return (2 * gravity * z * y) + gravity * b - 2 * z * Q**2
+
+    y_o = 1000
+    f_y = fun_y(y_o)
+    dif_f_y = dif_fun_y(y_o)
+    y_n = y_o - (f_y / dif_f_y)
+    error = abs(y_o - y_n)
+    y_o = y_n
+    contador = 1
+    print("yo = {}, y1 = {}, error = {}, iteracion = {}".format(y_o, y_n, error, contador))
+    while error > ERROR:
+        f_y = fun_y(y_n)
+        dif_f_y = dif_fun_y(y_n)
+        y_n = y_n - (f_y / dif_f_y)
+        error = abs(y_o - y_n)
+        y_o = y_n
+        contador = contador + 1
+        print("yo = {}, y{} = {}, error = {}, iteracion = {}".format(y_o, contador, y_n, error, contador))
+
+    res = y_n
     return round(res, ROUND_DIGITS)
 
 # A
