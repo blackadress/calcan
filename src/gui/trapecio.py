@@ -326,9 +326,3 @@ class TrapecioPage(tk.Frame):
             self.energia_especifica_label.config(text="ft-Kg/Kg")
 
         print('cambio unidades')
-
-from gui.ecuaciones import tirante_critico_trapezoidal
-Q = 10
-b = 7
-z = 2
-tirante_critico_trapezoidal(Q, b, z, True)
