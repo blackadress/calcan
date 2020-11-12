@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import font as tkfont
 
-from gui.ecuaciones import numero_de_froude, pendiente_critica, tirante_critico_circular, area_hidraulica_circular, espejo_de_agua_circular, perimetro_mojado_circular, radio_hidraulico_circular, velocidad_circular, energia_especifica_circular
+from gui.ecuaciones import numero_de_froude, pendiente_critica, angulo_circular, tirante_critico_circular, area_hidraulica_circular, espejo_de_agua_circular, perimetro_mojado_circular, radio_hidraulico_circular, velocidad_circular, energia_especifica_circular
 
 class CircularPage(tk.Frame):
     internacional = True
@@ -253,17 +253,19 @@ class CircularPage(tk.Frame):
         Z = self.talud_entry.get()
 
         try:
-            float(Q)
-            float(b)
-            float(Z)
+            Q = float(Q)
+            b = float(b)
+            Z = float(Z)
+            return (Q, b, Z)
         except ValueError:
             self.error_msg.config(text="Ingrese números válidos")
+            return (1, 1, 1)
 
-        return (Q, b, Z)
 
     def calcular(self):
         n = 1
         (Q, b, Z) = self.get_values()
+        o = angulo_circular()
         y = tirante_critico_circular(Q, b, self.internacional)
         A = area_hidraulica_circular(b, y, self.internacional)
         T = espejo_de_agua_circular(b, self.internacional)
@@ -275,15 +277,15 @@ class CircularPage(tk.Frame):
         S = pendiente_critica(Q, n, A, R, self.internacional)
 
         ## mostrando los datos en la GUI
-        self.tirante_critico_entry.config(text=y)
-        self.area_entry.config(text=A)
-        self.espejo_agua_entry.config(text=T)
-        self.numero_froude_entry.config(text=F)
-        self.pendiente_hidraulica_entry.config(text=S)
-        self.perimetro_entry.config(text=P)
-        self.radio_hidraulico_entry.config(text=R)
-        self.velocidad_entry.config(text=v)
-        self.energia_especifica_entry.config(text=E)
+        self.tirante_critico_entry.config(text="{:.5f}".format(y))
+        self.area_entry.config(text="{:.5f}".format(A))
+        self.espejo_agua_entry.config(text="{:.5f}".format(T))
+        self.numero_froude_entry.config(text="{:.5f}".format(F))
+        self.pendiente_hidraulica_entry.config(text="{:.5f}".format(S))
+        self.perimetro_entry.config(text="{:.5f}".format(P))
+        self.radio_hidraulico_entry.config(text="{:.5f}".format(R))
+        self.velocidad_entry.config(text="{:.5f}".format(v))
+        self.energia_especifica_entry.config(text="{:.5f}".format(E))
 
         print(y, A, T, F, P, R, v, E)
         print(S)

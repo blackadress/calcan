@@ -4,6 +4,7 @@ from tkinter import font as tkfont
 from gui.ecuaciones import numero_de_froude, pendiente_critica, tirante_critico_trapezoidal, area_hidraulica_trapezoidal, espejo_de_agua_trapezoidal, perimetro_mojado_trapezoidal, radio_hidraulico_trapezoidal, velocidad_trapezoidal, energia_especifica_trapezoidal
 
 class TrapecioPage(tk.Frame):
+    internacional = True
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
@@ -60,7 +61,7 @@ class TrapecioPage(tk.Frame):
             fg='blue',
             command=self.cambio_unidades
         )
-        cambio_unidades_btn.grid(row=3, column=0, rowspan=3)
+        cambio_unidades_btn.grid(row=4, column=0, rowspan=3)
 
         # adding right frame (imagen)
         img_frame = tk.Frame(self, border=2, relief=tk.RAISED)
@@ -252,29 +253,44 @@ class TrapecioPage(tk.Frame):
             self, height=2, fg='red', font=controller.button_font)
         self.error_msg.grid(row=19, column=0, columnspan=12)
 
+    def get_values(self):
+        Q = self.caudal_entry.get()
+        b = self.ancho_solera_entry.get()
+        Z = self.talud_entry.get()
+
+        try:
+            Q = float(Q)
+            b = float(b)
+            Z = float(Z)
+            return (Q, b, Z)
+        except ValueError:
+            self.error_msg.config(text="Ingrese números válidos")
+            return (1, 1, 1)
+
+
     def calcular(self):
         n = 1
         (Q, b, Z) = self.get_values()
-        y = tirante_critico_trapezoidal(Q, b, self.internacional)
-        A = area_hidraulica_trapezoidal(b, y, self.internacional)
-        T = espejo_de_agua_trapezoidal(b, self.internacional)
-        P = perimetro_mojado_trapezoidal(b, y, self.internacional)
-        R = radio_hidraulico_trapezoidal(b, y, self.internacional)
-        v = velocidad_trapezoidal(y, self.internacional)
+        y = tirante_critico_trapezoidal(Q, b, Z, self.internacional)
+        A = area_hidraulica_trapezoidal(b, y, Z, self.internacional)
+        T = espejo_de_agua_trapezoidal(b, y, Z, self.internacional)
+        P = perimetro_mojado_trapezoidal(b, y, Z, self.internacional)
+        R = radio_hidraulico_trapezoidal(A, P, self.internacional)
+        v = velocidad_trapezoidal(Q, A, self.internacional)
         E = energia_especifica_trapezoidal(y, v, self.internacional)
         F = numero_de_froude(v, A, T, self.internacional)
         S = pendiente_critica(Q, n, A, R, self.internacional)
 
         ## mostrando los datos en la GUI
-        self.tirante_critico_entry.config(text=y)
-        self.area_entry.config(text=A)
-        self.espejo_agua_entry.config(text=T)
-        self.numero_froude_entry.config(text=F)
-        self.pendiente_hidraulica_entry.config(text=S)
-        self.perimetro_entry.config(text=P)
-        self.radio_hidraulico_entry.config(text=R)
-        self.velocidad_entry.config(text=v)
-        self.energia_especifica_entry.config(text=E)
+        self.tirante_critico_entry.config(text="{:.5f}".format(y))
+        self.area_entry.config(text="{:.5f}".format(A))
+        self.espejo_agua_entry.config(text="{:.5f}".format(T))
+        self.numero_froude_entry.config(text="{:.5f}".format(F))
+        self.pendiente_hidraulica_entry.config(text="{:.5f}".format(S))
+        self.perimetro_entry.config(text="{:.5f}".format(P))
+        self.radio_hidraulico_entry.config(text="{:.5f}".format(R))
+        self.velocidad_entry.config(text="{:.5f}".format(v))
+        self.energia_especifica_entry.config(text="{:.5f}".format(E))
 
         print(y, A, T, F, P, R, v, E)
         print(S)

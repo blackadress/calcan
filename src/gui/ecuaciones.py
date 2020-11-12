@@ -1,3 +1,5 @@
+import math
+
 ## CONSTANTES
 ROUND_DIGITS = 5
 GRAVITY = 9.80665
@@ -134,7 +136,7 @@ def tirante_critico_trapezoidal(Q, b, z, SI):
         gravity = GRAVITY_ENG
 
     def fun_y(y):
-        return gravity * z * y**2 + (gravity * b - 2 * Q**2 * z) * y - b*Q**2 
+        return gravity * z * y**2 + (gravity * b - 2 * z * Q**2) * y - b*Q**2 
     def dif_fun_y(y):
         return (2 * gravity * z * y) + gravity * b - 2 * z * Q**2
 
@@ -159,53 +161,28 @@ def tirante_critico_trapezoidal(Q, b, z, SI):
     return round(res, ROUND_DIGITS)
 
 # A
-def area_hidraulica_trapezoidal(b, y, SI):
-    if SI:
-        gravity = GRAVITY
-    else:
-        gravity = GRAVITY_ENG
-
-    res = 0
+def area_hidraulica_trapezoidal(b, y, z, SI):
+    res = b * y + z * y**2
     return round(res, ROUND_DIGITS)
 
 # T
-def espejo_de_agua_trapezoidal(b, SI):
-    if SI:
-        gravity = GRAVITY
-    else:
-        gravity = GRAVITY_ENG
-
-    res = 0
+def espejo_de_agua_trapezoidal(b, y, z, SI):
+    res = b + 2 * z * y
     return round(res, ROUND_DIGITS)
 
 # P
-def perimetro_mojado_trapezoidal(b, y, SI):
-    if SI:
-        gravity = GRAVITY
-    else:
-        gravity = GRAVITY_ENG
-
-    res = 0
+def perimetro_mojado_trapezoidal(b, y, z, SI):
+    res = b + 2 * y * (1 + z**2)**(1/2)
     return round(res, ROUND_DIGITS)
 
 # R
-def radio_hidraulico_trapezoidal(b, y, SI):
-    if SI:
-        gravity = GRAVITY
-    else:
-        gravity = GRAVITY_ENG
-
-    res = 0
+def radio_hidraulico_trapezoidal(A, P, SI):
+    res = A / P
     return round(res, ROUND_DIGITS)
 
 # v
-def velocidad_trapezoidal(y, SI):
-    if SI:
-        gravity = GRAVITY
-    else:
-        gravity = GRAVITY_ENG
-
-    res = 0
+def velocidad_trapezoidal(Q, A, SI):
+    res = Q / A
     return round(res, ROUND_DIGITS)
 
 # E
@@ -215,11 +192,16 @@ def energia_especifica_trapezoidal(y, v, SI):
     else:
         gravity = GRAVITY_ENG
 
-    res = 0
+    res = y + (v**2) / (2 * gravity)
     return round(res, ROUND_DIGITS)
 
 
-## TRAPEZOIDAL
+## CIRCULAR
+# o / teta
+def angulo_circular():
+    res = 0
+    return round(res, ROUND_DIGITS)
+
 # y
 def tirante_critico_circular(Q, b, SI):
     if SI:
@@ -231,62 +213,36 @@ def tirante_critico_circular(Q, b, SI):
     return round(res, ROUND_DIGITS)
 
 # A
-def area_hidraulica_circular(b, y, SI):
-    if SI:
-        gravity = GRAVITY
-    else:
-        gravity = GRAVITY_ENG
-
-    res = 0
+def area_hidraulica_circular(o, D, SI):
+    res = (o - math.sin(o)) * D / 8
     return round(res, ROUND_DIGITS)
 
 # T
-def espejo_de_agua_circular(b, SI):
-    if SI:
-        gravity = GRAVITY
-    else:
-        gravity = GRAVITY_ENG
-
-    res = 0
+def espejo_de_agua_circular(o, D, SI):
+    res = math.sin(o/2) * D
     return round(res, ROUND_DIGITS)
 
 # P
-def perimetro_mojado_circular(b, y, SI):
-    if SI:
-        gravity = GRAVITY
-    else:
-        gravity = GRAVITY_ENG
-
-    res = 0
+def perimetro_mojado_circular(o, D, SI):
+    res = o * D / 2
     return round(res, ROUND_DIGITS)
 
 # R
-def radio_hidraulico_circular(b, y, SI):
-    if SI:
-        gravity = GRAVITY
-    else:
-        gravity = GRAVITY_ENG
-
-    res = 0
+def radio_hidraulico_circular(o, D, SI):
+    res = (1 - math.sin(o) / o) * D / 4
     return round(res, ROUND_DIGITS)
 
 # v
-def velocidad_circular(y, SI):
-    if SI:
-        gravity = GRAVITY
-    else:
-        gravity = GRAVITY_ENG
-
-    res = 0
+def velocidad_circular(Q, A, SI):
+    res = (Q / A)
     return round(res, ROUND_DIGITS)
 
 # E
-def energia_especifica_circular(y, v, SI):
+def energia_especifica_circular(v, y, SI):
     if SI:
         gravity = GRAVITY
     else:
         gravity = GRAVITY_ENG
-
-    res = 0
+    res = y + v**2 / ((v ** 2) / (2 * gravity))
     return round(res, ROUND_DIGITS)
 
