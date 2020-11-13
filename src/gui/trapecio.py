@@ -210,7 +210,7 @@ class TrapecioPage(tk.Frame):
             results_frame_right, text='Energía específica (E)', height=2)
         energia_especifica_label.grid(row=3, column=0)
         # self.energia_especifica_entry = tk.Entry(results_frame_right)
-        energia_especifica_entry = tk.Label(results_frame_right, text='00.0000', height=2)
+        self.energia_especifica_entry = tk.Label(results_frame_right, text='00.0000', height=2)
         self.energia_especifica_entry.grid(row=3, column=1)
         self.energia_especifica_label = tk.Label(
             results_frame_right, text='m', height=2)
