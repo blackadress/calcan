@@ -1,3 +1,5 @@
+import xlwt
+import fpdf
 import tkinter as tk
 from tkinter import font as tkfont
 
@@ -232,22 +234,30 @@ class TrapecioPage(tk.Frame):
             fg='purple3', font=controller.button_font,
             command=self.limpiar
         )
-        limpiar_btn.grid(row=18, column=3)
+        limpiar_btn.grid(row=18, column=2)
 
-        exportar_btn = tk.Button(
+        exportar_pdf_pdf_btn = tk.Button(
             self, text='Exportar a PDF',
             border=2,
             fg='dark green', font=controller.button_font,
-            command=self.exportar
+            command=self.exportar_pdf,
         )
-        exportar_btn.grid(row=18, column=7)
+        exportar_pdf_pdf_btn.grid(row=18, column=4, padx=(50, 10))
+
+        exportar_excel_btn = tk.Button(
+            self, text='Exportar a excel',
+            border=2,
+            fg='dark green', font=controller.button_font,
+            command=self.exportar_excel
+        )
+        exportar_excel_btn.grid(row=18, column=7)
 
         home_btn = tk.Button(
             self, text="Inicio",
             border=2,
             fg='red', font=controller.button_font,
             command=lambda: controller.show_frame("StartPage"))
-        home_btn.grid(row=18, column=9)
+        home_btn.grid(row=18, column=8)
 
         self.error_msg = tk.Label(
             self, height=2, fg='red', font=controller.button_font)
@@ -306,8 +316,35 @@ class TrapecioPage(tk.Frame):
         self.talud_entry.insert(0, '')
         print('limpiar')
 
-    def exportar(self):
-        print('exportar')
+    def exportar_excel(self):
+        Caudal = self.caudal_entry.get()
+        Solera = self.ancho_solera_entry.get()
+        Talud = self.talud_entry.get()
+        tirante_critico = self.tirante_critico_entry.cget("text")
+        area = self.area_entry.cget("text")
+        espejo_agua = self.espejo_agua_entry.cget("text")
+        numero_froude = self.numero_froude_entry.cget("text")
+        pendiente_hidraulica = self.pendiente_hidraulica_entry.cget("text")
+        perimetro = self.perimetro_entry.cget("text")
+        radio_hidraulico = self.radio_hidraulico_entry.cget("text")
+        velocidad = self.velocidad_entry.cget("text")
+        energia_especifica = self.energia_especifica_entry.cget("text")
+        print('exportar excel')
+
+    def exportar_pdf(self):
+        Caudal = self.caudal_entry.get()
+        Solera = self.ancho_solera_entry.get()
+        Talud = self.talud_entry.get()
+        tirante_critico = self.tirante_critico_entry.cget("text")
+        area = self.area_entry.cget("text")
+        espejo_agua = self.espejo_agua_entry.cget("text")
+        numero_froude = self.numero_froude_entry.cget("text")
+        pendiente_hidraulica = self.pendiente_hidraulica_entry.cget("text")
+        perimetro = self.perimetro_entry.cget("text")
+        radio_hidraulico = self.radio_hidraulico_entry.cget("text")
+        velocidad = self.velocidad_entry.cget("text")
+        energia_especifica = self.energia_especifica_entry.cget("text")
+        print('exportarpdf')
 
     def cambio_unidades(self):
         self.internacional = not self.internacional
