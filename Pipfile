@@ -10,6 +10,8 @@ pycodestyle = "*"
 
 [packages]
 pillow = "*"
+xlwt = "*"
+fpdf = "*"
 
 [requires]
 python_version = "3.8"

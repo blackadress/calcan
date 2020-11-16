@@ -389,7 +389,6 @@ class CircularPage(tk.Frame):
         energia_especifica = self.energia_especifica_entry.cget("text")
 
         pdf = fpdf.FPDF()
-
         # añadiendo una pag al pdf
         pdf.add_page()
         title = 'Cálculo de Canal Circular'
@@ -452,7 +451,6 @@ class CircularPage(tk.Frame):
         pdf.cell(w=60.0, h=10.0, align='L', txt=energia_especifica, border=1)
 
         pdf.output('canal_circular.pdf', 'F')
-
 
         print('exportar pdf')
 

@@ -1,5 +1,7 @@
 .vscode
 *.xlsx
+*.xls
+*.pdf
 *.pyc
 */__pycache__/*
 **/migrations/**

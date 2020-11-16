@@ -340,9 +340,9 @@ class TrapecioPage(tk.Frame):
         hoja_1.write(2, 0, "Talud (z)")
         hoja_1.write(2, 1, Talud)
 
-        hoja_1.write(0, 3, "Tirante Critico (y)")
+        hoja_1.write(0, 3, "Tirante Crítico (y)")
         hoja_1.write(0, 4, tirante_critico)
-        hoja_1.write(1, 3, "Area hidráulica (A)")
+        hoja_1.write(1, 3, "Área hidráulica (A)")
         hoja_1.write(1, 4, area)
         hoja_1.write(2, 3, "Expejo de Agua (T)")
         hoja_1.write(2, 4, espejo_agua)
@@ -356,8 +356,8 @@ class TrapecioPage(tk.Frame):
         hoja_1.write(6, 4, radio_hidraulico)
         hoja_1.write(7, 3, "Velocidad")
         hoja_1.write(7, 4, velocidad)
-        hoja_1.write(8, 3, "Energía Especifica")
-        hoja_1.write(8, 4, radio_hidraulico)
+        hoja_1.write(8, 3, "Energía Específica")
+        hoja_1.write(8, 4, energia_especifica)
 
         # cambiando tamaño a las columnas
         col_1 = hoja_1.col(0)

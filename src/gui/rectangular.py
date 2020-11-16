@@ -392,9 +392,9 @@ class RectangularPage(tk.Frame):
         hoja_1.write(1, 0, "Solera (b)")
         hoja_1.write(1, 1, Solera)
 
-        hoja_1.write(0, 3, "Tirante Critico (y)")
+        hoja_1.write(0, 3, "Tirante Crítico (y)")
         hoja_1.write(0, 4, tirante_critico)
-        hoja_1.write(1, 3, "Area hidráulica (A)")
+        hoja_1.write(1, 3, "Área hidráulica (A)")
         hoja_1.write(1, 4, area)
         hoja_1.write(2, 3, "Expejo de Agua (T)")
         hoja_1.write(2, 4, espejo_agua)
