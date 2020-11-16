@@ -299,7 +299,6 @@ class RectangularPage(tk.Frame):
     def exportar_pdf(self):
         Caudal = self.caudal_entry.get()
         Solera = self.ancho_solera_entry.get()
-        Talud = self.talud_entry.get()
         tirante_critico = self.tirante_critico_entry.cget("text")
         area = self.area_entry.cget("text")
         espejo_agua = self.espejo_agua_entry.cget("text")
@@ -309,12 +308,72 @@ class RectangularPage(tk.Frame):
         radio_hidraulico = self.radio_hidraulico_entry.cget("text")
         velocidad = self.velocidad_entry.cget("text")
         energia_especifica = self.energia_especifica_entry.cget("text")
+
+        pdf = fpdf.FPDF()
+        # añadiendo una pag al pdf
+        pdf.add_page()
+        title = 'Cálculo de Canal Rectangular'
+
+        pdf.set_xy(0.0, 0.0)
+        pdf.set_font('Arial', 'B', 16)
+        pdf.cell(w=210.0, h=40.0, align='C', txt=title, border=0)
+
+        pdf.set_font('Arial', '', 13)
+
+        # añadiendo celdas al pdf
+        pdf.set_xy(20.0, 30.0)
+        pdf.cell(w=30.0, h=10.0, align='L', txt="Caudal (Q)", border=1)
+        pdf.set_xy(50.0, 30.0)
+        pdf.cell(w=30.0, h=10.0, align='L', txt=Caudal, border=1)
+        pdf.set_xy(20.0, 40.0)
+        pdf.cell(w=30.0, h=10.0, align='L', txt="Solera (b)", border=1)
+        pdf.set_xy(50.0, 40.0)
+        pdf.cell(w=30.0, h=10.0, align='L', txt=Solera, border=1)
+
+        pdf.set_xy(90.0, 30.0)
+        pdf.cell(w=50.0, h=10.0, align='L', txt="Tirante Critico (y)", border=1)
+        pdf.set_xy(140.0, 30.0)
+        pdf.cell(w=60.0, h=10.0, align='L', txt=tirante_critico, border=1)
+        pdf.set_xy(90.0, 40.0)
+        pdf.cell(w=50.0, h=10.0, align='L', txt="Area hidráulica (A)", border=1)
+        pdf.set_xy(140.0, 40.0)
+        pdf.cell(w=60.0, h=10.0, align='L', txt=area, border=1)
+        pdf.set_xy(90.0, 50.0)
+        pdf.cell(w=50.0, h=10.0, align='L', txt="Espejo de Agua (T)", border=1)
+        pdf.set_xy(140.0, 50.0)
+        pdf.cell(w=60.0, h=10.0, align='L', txt=espejo_agua, border=1)
+        pdf.set_xy(90.0, 60.0)
+        pdf.cell(w=50.0, h=10.0, align='L', txt="Número de Froude", border=1)
+        pdf.set_xy(140.0, 60.0)
+        pdf.cell(w=60.0, h=10.0, align='L', txt=numero_froude, border=1)
+        pdf.set_xy(90.0, 70.0)
+        pdf.cell(w=50.0, h=10.0, align='L', txt="Pendiente hidráulica", border=1)
+        pdf.set_xy(140.0, 70.0)
+        pdf.cell(w=60.0, h=10.0, align='L', txt=pendiente_hidraulica, border=1)
+        pdf.set_xy(90.0, 80.0)
+        pdf.cell(w=50.0, h=10.0, align='L', txt="Perímetro", border=1)
+        pdf.set_xy(140.0, 80.0)
+        pdf.cell(w=60.0, h=10.0, align='L', txt=perimetro, border=1)
+        pdf.set_xy(90.0, 90.0)
+        pdf.cell(w=50.0, h=10.0, align='L', txt="Radio hidráulico", border=1)
+        pdf.set_xy(140.0, 90.0)
+        pdf.cell(w=60.0, h=10.0, align='L', txt=radio_hidraulico, border=1)
+        pdf.set_xy(90.0, 100.0)
+        pdf.cell(w=50.0, h=10.0, align='L', txt="Velocidad", border=1)
+        pdf.set_xy(140.0, 100.0)
+        pdf.cell(w=60.0, h=10.0, align='L', txt=velocidad, border=1)
+        pdf.set_xy(90.0, 110.0)
+        pdf.cell(w=50.0, h=10.0, align='L', txt="Energía Especifica (E)", border=1)
+        pdf.set_xy(140.0, 110.0)
+        pdf.cell(w=60.0, h=10.0, align='L', txt=energia_especifica, border=1)
+
+        pdf.output('canal_rectangular.pdf', 'F')
+
         print('exportar pdf')
 
     def exportar_excel(self):
         Caudal = self.caudal_entry.get()
         Solera = self.ancho_solera_entry.get()
-        Talud = self.talud_entry.get()
         tirante_critico = self.tirante_critico_entry.cget("text")
         area = self.area_entry.cget("text")
         espejo_agua = self.espejo_agua_entry.cget("text")
@@ -324,6 +383,47 @@ class RectangularPage(tk.Frame):
         radio_hidraulico = self.radio_hidraulico_entry.cget("text")
         velocidad = self.velocidad_entry.cget("text")
         energia_especifica = self.energia_especifica_entry.cget("text")
+
+        wb = xlwt.Workbook()
+        # añadiendo datos a la hoja de excel
+        hoja_1 = wb.add_sheet('Hoja 1')
+        hoja_1.write(0, 0, "Caudal (Q)")
+        hoja_1.write(0, 1, Caudal)
+        hoja_1.write(1, 0, "Solera (b)")
+        hoja_1.write(1, 1, Solera)
+
+        hoja_1.write(0, 3, "Tirante Critico (y)")
+        hoja_1.write(0, 4, tirante_critico)
+        hoja_1.write(1, 3, "Area hidráulica (A)")
+        hoja_1.write(1, 4, area)
+        hoja_1.write(2, 3, "Expejo de Agua (T)")
+        hoja_1.write(2, 4, espejo_agua)
+        hoja_1.write(3, 3, "Número de Froude")
+        hoja_1.write(3, 4, numero_froude)
+        hoja_1.write(4, 3, "Pendiente hidráulica")
+        hoja_1.write(4, 4, pendiente_hidraulica)
+        hoja_1.write(5, 3, "Perímetro")
+        hoja_1.write(5, 4, perimetro)
+        hoja_1.write(6, 3, "Radio hidráulico")
+        hoja_1.write(6, 4, radio_hidraulico)
+        hoja_1.write(7, 3, "Velocidad")
+        hoja_1.write(7, 4, velocidad)
+        hoja_1.write(8, 3, "Energía Especifica")
+        hoja_1.write(8, 4, energia_especifica)
+
+        # cambiando tamaño a las columnas
+        col_1 = hoja_1.col(0)
+        col_1.width = 2500
+        col_2 = hoja_1.col(1)
+        col_2.width = 2300
+
+        col_4 = hoja_1.col(3)
+        col_4.width = 4500
+        col_5 = hoja_1.col(4)
+        col_5.width = 2300
+
+        wb.save('canal_rectangular.xls')
+
         print('exportar excel')
 
     def cambio_unidades(self):

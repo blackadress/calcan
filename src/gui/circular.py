@@ -5,6 +5,7 @@ from tkinter import font as tkfont
 
 from gui.ecuaciones import numero_de_froude, pendiente_critica, angulo_circular, tirante_critico_circular, area_hidraulica_circular, espejo_de_agua_circular, perimetro_mojado_circular, radio_hidraulico_circular, velocidad_circular, energia_especifica_circular
 
+
 class CircularPage(tk.Frame):
     internacional = True
 
@@ -28,7 +29,7 @@ class CircularPage(tk.Frame):
         titulo.grid(row=0, column=0, columnspan=3)
         titulo.config(fg='blue')
 
-        ## Datos > Caudal
+        # Datos > Caudal
         caudal_label = tk.Label(datos_frame, text='Caudal (Q)', height=2)
         caudal_label.grid(row=1, column=0)
         self.caudal_entry = tk.Entry(datos_frame)
@@ -47,7 +48,7 @@ class CircularPage(tk.Frame):
         self.ancho_solera_label.grid(row=2, column=2)
         self.ancho_solera_label.config(padx=4)
 
-        ## Datos > Talud
+        # Datos > Talud
         talud_label = tk.Label(datos_frame, text='Talud (Z)', height=2)
         talud_label.grid(row=3, column=0)
         self.talud_entry = tk.Entry(datos_frame)
@@ -128,7 +129,8 @@ class CircularPage(tk.Frame):
         self.espejo_agua_entry = tk.Label(
             results_frame_left, text='00.0000', height=2)
         self.espejo_agua_entry.grid(row=2, column=1)
-        self.espejo_agua_label = tk.Label(results_frame_left, text='m', height=2)
+        self.espejo_agua_label = tk.Label(
+            results_frame_left, text='m', height=2)
         self.espejo_agua_label.grid(row=2, column=2)
         self.espejo_agua_label.config(padx=4)
 
@@ -139,7 +141,8 @@ class CircularPage(tk.Frame):
         self.numero_froude_entry = tk.Label(
             results_frame_left, text='00.0000', height=2)
         self.numero_froude_entry.grid(row=3, column=1)
-        self.numero_froude_label = tk.Label(results_frame_left, text='', height=2)
+        self.numero_froude_label = tk.Label(
+            results_frame_left, text='', height=2)
         self.numero_froude_label.grid(row=3, column=2)
         self.numero_froude_label.config(padx=4)
 
@@ -151,7 +154,8 @@ class CircularPage(tk.Frame):
         self.pendiente_hidraulica_entry = tk.Label(
             results_frame_left, text='00.0000', height=2)
         self.pendiente_hidraulica_entry.grid(row=4, column=1)
-        self.pendiente_hidraulica_label = tk.Label(results_frame_left, text='', height=2)
+        self.pendiente_hidraulica_label = tk.Label(
+            results_frame_left, text='', height=2)
         self.pendiente_hidraulica_label.grid(row=4, column=2)
         self.pendiente_hidraulica_label.config(padx=4)
 
@@ -163,7 +167,7 @@ class CircularPage(tk.Frame):
         results_frame_right.config(border=3)
         results_frame_right.columnconfigure(0, weight=1)
 
-        ## Resultados > Perímetro
+        # Resultados > Perímetro
         perimetro_label = tk.Label(
             results_frame_right, text='Perímetro (p)', height=2)
         perimetro_label.grid(row=0, column=0)
@@ -171,7 +175,8 @@ class CircularPage(tk.Frame):
         self.perimetro_entry = tk.Label(
             results_frame_right, text='00.0000', height=2)
         self.perimetro_entry.grid(row=0, column=1)
-        self.perimetro_label = tk.Label(results_frame_right, text='m', height=2)
+        self.perimetro_label = tk.Label(
+            results_frame_right, text='m', height=2)
         self.perimetro_label.grid(row=0, column=2)
         self.perimetro_label.config(padx=4)
 
@@ -188,7 +193,7 @@ class CircularPage(tk.Frame):
         self.radio_hidraulico_label.grid(row=1, column=2)
         self.radio_hidraulico_label.config(padx=4)
 
-        ## Resultados > Velocidad
+        # Resultados > Velocidad
         velocidad_label = tk.Label(
             results_frame_right, text='Velocidad', height=2)
         velocidad_label.grid(row=2, column=0)
@@ -196,7 +201,8 @@ class CircularPage(tk.Frame):
         self.velocidad_entry = tk.Label(
             results_frame_right, text='00.0000', height=2)
         self.velocidad_entry.grid(row=2, column=1)
-        self.velocidad_label = tk.Label(results_frame_right, text='m/s', height=2)
+        self.velocidad_label = tk.Label(
+            results_frame_right, text='m/s', height=2)
         self.velocidad_label.grid(row=2, column=2)
         self.velocidad_label.config(padx=4)
 
@@ -271,7 +277,6 @@ class CircularPage(tk.Frame):
             self.error_msg.config(text="Ingrese números válidos")
             return (1, 1, 1)
 
-
     def calcular(self):
         n = 1
         (Q, b, Z) = self.get_values()
@@ -286,7 +291,7 @@ class CircularPage(tk.Frame):
         F = numero_de_froude(v, A, T, self.internacional)
         S = pendiente_critica(Q, n, A, R, self.internacional)
 
-        ## mostrando los datos en la GUI
+        # mostrando los datos en la GUI
         self.tirante_critico_entry.config(text="{:.5f}".format(y))
         self.area_entry.config(text="{:.5f}".format(A))
         self.espejo_agua_entry.config(text="{:.5f}".format(T))
@@ -324,6 +329,49 @@ class CircularPage(tk.Frame):
         radio_hidraulico = self.radio_hidraulico_entry.cget("text")
         velocidad = self.velocidad_entry.cget("text")
         energia_especifica = self.energia_especifica_entry.cget("text")
+
+        wb = xlwt.Workbook()
+        # añadiendo datos a la hoja de excel
+        hoja_1 = wb.add_sheet('Hoja 1')
+        hoja_1.write(0, 0, "Caudal (Q)")
+        hoja_1.write(0, 1, Caudal)
+        hoja_1.write(1, 0, "Solera (b)")
+        hoja_1.write(1, 1, Solera)
+        hoja_1.write(2, 0, "Talud (z)")
+        hoja_1.write(2, 1, Talud)
+
+        hoja_1.write(0, 3, "Tirante Crítico (y)")
+        hoja_1.write(0, 4, tirante_critico)
+        hoja_1.write(1, 3, "Área hidráulica (A)")
+        hoja_1.write(1, 4, area)
+        hoja_1.write(2, 3, "Espejo de Agua (T)")
+        hoja_1.write(2, 4, espejo_agua)
+        hoja_1.write(3, 3, "Número de Froude")
+        hoja_1.write(3, 4, numero_froude)
+        hoja_1.write(4, 3, "Pendiente hidráulica")
+        hoja_1.write(4, 4, pendiente_hidraulica)
+        hoja_1.write(5, 3, "Perímetro")
+        hoja_1.write(5, 4, perimetro)
+        hoja_1.write(6, 3, "Radio hidráulico")
+        hoja_1.write(6, 4, radio_hidraulico)
+        hoja_1.write(7, 3, "Velocidad")
+        hoja_1.write(7, 4, velocidad)
+        hoja_1.write(8, 3, "Energía Especifica")
+        hoja_1.write(8, 4, energia_especifica)
+
+        # cambiando tamaño a las columnas
+        col_1 = hoja_1.col(0)
+        col_1.width = 2500
+        col_2 = hoja_1.col(1)
+        col_2.width = 2300
+
+        col_4 = hoja_1.col(3)
+        col_4.width = 4500
+        col_5 = hoja_1.col(4)
+        col_5.width = 2300
+
+        wb.save('canal_circular.xls')
+
         print('exportar excel')
 
     def exportar_pdf(self):
@@ -339,6 +387,73 @@ class CircularPage(tk.Frame):
         radio_hidraulico = self.radio_hidraulico_entry.cget("text")
         velocidad = self.velocidad_entry.cget("text")
         energia_especifica = self.energia_especifica_entry.cget("text")
+
+        pdf = fpdf.FPDF()
+
+        # añadiendo una pag al pdf
+        pdf.add_page()
+        title = 'Cálculo de Canal Circular'
+
+        pdf.set_xy(0.0, 0.0)
+        pdf.set_font('Arial', 'B', 16)
+        pdf.cell(w=210.0, h=40.0, align='C', txt=title, border=0)
+
+        pdf.set_font('Arial', '', 13)
+
+        # añadiendo celdas al pdf
+        pdf.set_xy(20.0, 30.0)
+        pdf.cell(w=30.0, h=10.0, align='L', txt="Caudal (Q)", border=1)
+        pdf.set_xy(50.0, 30.0)
+        pdf.cell(w=30.0, h=10.0, align='L', txt=Caudal, border=1)
+        pdf.set_xy(20.0, 40.0)
+        pdf.cell(w=30.0, h=10.0, align='L', txt="Solera (b)", border=1)
+        pdf.set_xy(50.0, 40.0)
+        pdf.cell(w=30.0, h=10.0, align='L', txt=Solera, border=1)
+        pdf.set_xy(20.0, 50.0)
+        pdf.cell(w=30.0, h=10.0, align='L', txt="Talud (z)", border=1)
+        pdf.set_xy(50.0, 50.0)
+        pdf.cell(w=30.0, h=10.0, align='L', txt=Talud, border=1)
+
+        pdf.set_xy(90.0, 30.0)
+        pdf.cell(w=50.0, h=10.0, align='L', txt="Tirante Critico (y)", border=1)
+        pdf.set_xy(140.0, 30.0)
+        pdf.cell(w=60.0, h=10.0, align='L', txt=tirante_critico, border=1)
+        pdf.set_xy(90.0, 40.0)
+        pdf.cell(w=50.0, h=10.0, align='L', txt="Area hidráulica (A)", border=1)
+        pdf.set_xy(140.0, 40.0)
+        pdf.cell(w=60.0, h=10.0, align='L', txt=area, border=1)
+        pdf.set_xy(90.0, 50.0)
+        pdf.cell(w=50.0, h=10.0, align='L', txt="Espejo de Agua (T)", border=1)
+        pdf.set_xy(140.0, 50.0)
+        pdf.cell(w=60.0, h=10.0, align='L', txt=espejo_agua, border=1)
+        pdf.set_xy(90.0, 60.0)
+        pdf.cell(w=50.0, h=10.0, align='L', txt="Número de Froude", border=1)
+        pdf.set_xy(140.0, 60.0)
+        pdf.cell(w=60.0, h=10.0, align='L', txt=numero_froude, border=1)
+        pdf.set_xy(90.0, 70.0)
+        pdf.cell(w=50.0, h=10.0, align='L', txt="Pendiente hidráulica", border=1)
+        pdf.set_xy(140.0, 70.0)
+        pdf.cell(w=60.0, h=10.0, align='L', txt=pendiente_hidraulica, border=1)
+        pdf.set_xy(90.0, 80.0)
+        pdf.cell(w=50.0, h=10.0, align='L', txt="Perímetro", border=1)
+        pdf.set_xy(140.0, 80.0)
+        pdf.cell(w=60.0, h=10.0, align='L', txt=perimetro, border=1)
+        pdf.set_xy(90.0, 90.0)
+        pdf.cell(w=50.0, h=10.0, align='L', txt="Radio hidráulico", border=1)
+        pdf.set_xy(140.0, 90.0)
+        pdf.cell(w=60.0, h=10.0, align='L', txt=radio_hidraulico, border=1)
+        pdf.set_xy(90.0, 100.0)
+        pdf.cell(w=50.0, h=10.0, align='L', txt="Velocidad", border=1)
+        pdf.set_xy(140.0, 100.0)
+        pdf.cell(w=60.0, h=10.0, align='L', txt=velocidad, border=1)
+        pdf.set_xy(90.0, 110.0)
+        pdf.cell(w=50.0, h=10.0, align='L', txt="Energía Especifica (E)", border=1)
+        pdf.set_xy(140.0, 110.0)
+        pdf.cell(w=60.0, h=10.0, align='L', txt=energia_especifica, border=1)
+
+        pdf.output('canal_circular.pdf', 'F')
+
+
         print('exportar pdf')
 
     def cambio_unidades(self):
