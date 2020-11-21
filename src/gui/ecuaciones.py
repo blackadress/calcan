@@ -198,23 +198,47 @@ def energia_especifica_trapezoidal(y, v, SI):
 
 ## CIRCULAR
 # o / teta
-def angulo_circular():
-    res = 0
-    return round(res, ROUND_DIGITS)
-
-# y
-def tirante_critico_circular(Q, b, SI):
+def angulo_circular(D, Q, SI):
     if SI:
         gravity = GRAVITY
     else:
         gravity = GRAVITY_ENG
 
-    res = 0
+    def fun_o(o):
+        return (8 / D**2) * ((D * math.sin(o/2) * Q**2) / (gravity))**(1/3) + math.sin(o) - o
+
+    def dif_fun_o(o):
+        return (4 / 6 * D**2) * ((D * Q**2) / gravity)**(1/3)*(math.cos(o/2)/(math.sin(o/2))**(2/3)) + math.cos(o/2) - 1
+
+    o_0 = math.pi
+    f_o = fun_o(o_0)
+    dif_f_o = dif_fun_o(o_0)
+    o_n = o_0 - (f_o / dif_f_o)
+    error = abs(o_0 - o_n)
+    o_0 = o_n
+    contador = 1
+    print("o_0 = {}, o1 = {}, error = {}, iteracion = {}".format(o_0, o_n, error, contador))
+    while error > ERROR:
+        f_o = fun_o(o_0)
+        dif_f_o = dif_fun_o(o_0)
+        o_n = o_n - (f_o / dif_f_o)
+        error = abs(o_0 - o_n)
+        o_0 = o_n
+        contador = contador + 1
+        # print("o_0 = {}, o{} = {}, error = {}, iteracion = {}".format(o_0, contador, o_n, error, contador))
+
+    res = o_n
+    return round(res, ROUND_DIGITS)
+
+# y
+def tirante_critico_circular(o, D, SI):
+    res = D/2 + (D/2) * math.cos(2*math.pi - o)
     return round(res, ROUND_DIGITS)
 
 # A
 def area_hidraulica_circular(o, D, SI):
     res = (o - math.sin(o)) * D / 8
+    print(res)
     return round(res, ROUND_DIGITS)
 
 # T
@@ -238,11 +262,10 @@ def velocidad_circular(Q, A, SI):
     return round(res, ROUND_DIGITS)
 
 # E
-def energia_especifica_circular(v, y, SI):
+def energia_especifica_circular(y, v, SI):
     if SI:
         gravity = GRAVITY
     else:
         gravity = GRAVITY_ENG
     res = y + v**2 / ((v ** 2) / (2 * gravity))
     return round(res, ROUND_DIGITS)
-
