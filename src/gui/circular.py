@@ -38,24 +38,15 @@ class CircularPage(tk.Frame):
         self.caudal_label.grid(row=1, column=2)
         self.caudal_label.config(padx=4)
 
-        # Datos > Ancho de Solera
-        ancho_solera_label = tk.Label(
-            datos_frame, text='Ancho de solera (b)', height=2)
-        ancho_solera_label.grid(row=2, column=0)
-        self.ancho_solera_entry = tk.Entry(datos_frame)
-        self.ancho_solera_entry.grid(row=2, column=1)
-        self.ancho_solera_label = tk.Label(datos_frame, text='m', height=2)
-        self.ancho_solera_label.grid(row=2, column=2)
-        self.ancho_solera_label.config(padx=4)
-
-        # Datos > Talud
-        talud_label = tk.Label(datos_frame, text='Talud (Z)', height=2)
-        talud_label.grid(row=3, column=0)
-        self.talud_entry = tk.Entry(datos_frame)
-        self.talud_entry.grid(row=3, column=1)
-        self.talud_label = tk.Label(datos_frame, text='', height=2)
-        self.talud_label.grid(row=3, column=2)
-        self.talud_label.config(padx=4)
+        # Datos > Diámetro
+        diametro_label = tk.Label(
+            datos_frame, text='Diámetro', height=2)
+        diametro_label.grid(row=2, column=0)
+        self.diametro_entry = tk.Entry(datos_frame)
+        self.diametro_entry.grid(row=2, column=1)
+        self.diametro_label = tk.Label(datos_frame, text='m', height=2)
+        self.diametro_label.grid(row=2, column=2)
+        self.diametro_label.config(padx=4)
 
         # Datos > Internacional/Ingles
         cambio_unidades_btn = tk.Button(
@@ -265,28 +256,28 @@ class CircularPage(tk.Frame):
 
     def get_values(self):
         Q = self.caudal_entry.get()
-        b = self.ancho_solera_entry.get()
-        Z = self.talud_entry.get()
+        D = self.diametro_entry.get()
 
         try:
             Q = float(Q)
-            b = float(b)
-            Z = float(Z)
-            return (Q, b, Z)
+            D = float(D)
+            self.error_msg.config(text="")
+            return (Q, D)
         except ValueError:
             self.error_msg.config(text="Ingrese números válidos")
-            return (1, 1, 1)
+            return (1, 1)
 
     def calcular(self):
         n = 1
-        (Q, b, Z) = self.get_values()
-        o = angulo_circular()
-        y = tirante_critico_circular(Q, b, self.internacional)
-        A = area_hidraulica_circular(b, y, self.internacional)
-        T = espejo_de_agua_circular(b, self.internacional)
-        P = perimetro_mojado_circular(b, y, self.internacional)
-        R = radio_hidraulico_circular(b, y, self.internacional)
-        v = velocidad_circular(y, self.internacional)
+        (Q, D) = self.get_values()
+        o = angulo_circular(D, Q, self.internacional)
+        y = tirante_critico_circular(o, D, self.internacional)
+        A = area_hidraulica_circular(o, D, self.internacional)
+        T = espejo_de_agua_circular(o, D, self.internacional)
+        P = perimetro_mojado_circular(o, D, self.internacional)
+        R = radio_hidraulico_circular(o, D, self.internacional)
+        # v = velocidad_circular(Q, A, self.internacional)
+        v = 1
         E = energia_especifica_circular(y, v, self.internacional)
         F = numero_de_froude(v, A, T, self.internacional)
         S = pendiente_critica(Q, n, A, R, self.internacional)
@@ -310,16 +301,13 @@ class CircularPage(tk.Frame):
     def limpiar(self):
         self.caudal_entry.delete(0, tk.END)
         self.caudal_entry.insert(0, '')
-        self.ancho_solera_entry.delete(0, tk.END)
-        self.ancho_solera_entry.insert(0, '')
-        self.talud_entry.delete(0, tk.END)
-        self.talud_entry.insert(0, '')
+        self.diametro_entry.delete(0, tk.END)
+        self.diametro_entry.insert(0, '')
         print('limpiar')
 
     def exportar_excel(self):
         Caudal = self.caudal_entry.get()
-        Solera = self.ancho_solera_entry.get()
-        Talud = self.talud_entry.get()
+        Diametro = self.diametro_entry.get()
         tirante_critico = self.tirante_critico_entry.cget("text")
         area = self.area_entry.cget("text")
         espejo_agua = self.espejo_agua_entry.cget("text")
@@ -335,10 +323,8 @@ class CircularPage(tk.Frame):
         hoja_1 = wb.add_sheet('Hoja 1')
         hoja_1.write(0, 0, "Caudal (Q)")
         hoja_1.write(0, 1, Caudal)
-        hoja_1.write(1, 0, "Solera (b)")
-        hoja_1.write(1, 1, Solera)
-        hoja_1.write(2, 0, "Talud (z)")
-        hoja_1.write(2, 1, Talud)
+        hoja_1.write(1, 0, "Diámetro (D)")
+        hoja_1.write(1, 1, Diametro)
 
         hoja_1.write(0, 3, "Tirante Crítico (y)")
         hoja_1.write(0, 4, tirante_critico)
@@ -376,8 +362,7 @@ class CircularPage(tk.Frame):
 
     def exportar_pdf(self):
         Caudal = self.caudal_entry.get()
-        Solera = self.ancho_solera_entry.get()
-        Talud = self.talud_entry.get()
+        Diametro = self.diametro_entry.get()
         tirante_critico = self.tirante_critico_entry.cget("text")
         area = self.area_entry.cget("text")
         espejo_agua = self.espejo_agua_entry.cget("text")
@@ -405,13 +390,10 @@ class CircularPage(tk.Frame):
         pdf.set_xy(50.0, 30.0)
         pdf.cell(w=30.0, h=10.0, align='L', txt=Caudal, border=1)
         pdf.set_xy(20.0, 40.0)
-        pdf.cell(w=30.0, h=10.0, align='L', txt="Solera (b)", border=1)
+        pdf.cell(w=30.0, h=10.0, align='L', txt="Diametro (D)", border=1)
         pdf.set_xy(50.0, 40.0)
-        pdf.cell(w=30.0, h=10.0, align='L', txt=Solera, border=1)
+        pdf.cell(w=30.0, h=10.0, align='L', txt=Diametro, border=1)
         pdf.set_xy(20.0, 50.0)
-        pdf.cell(w=30.0, h=10.0, align='L', txt="Talud (z)", border=1)
-        pdf.set_xy(50.0, 50.0)
-        pdf.cell(w=30.0, h=10.0, align='L', txt=Talud, border=1)
 
         pdf.set_xy(90.0, 30.0)
         pdf.cell(w=50.0, h=10.0, align='L', txt="Tirante Critico (y)", border=1)
@@ -458,8 +440,7 @@ class CircularPage(tk.Frame):
         self.internacional = not self.internacional
         if self.internacional:
             self.caudal_label.config(text="m3/s")
-            self.ancho_solera_label.config(text="m")
-            self.talud_entry.config(text="")
+            self.diametro_label.config(text="m")
 
             self.tirante_critico_label.config(text="m")
             self.area_label.config(text="m2")
@@ -473,8 +454,7 @@ class CircularPage(tk.Frame):
 
         else:
             self.caudal_label.config(text="ft3/s")
-            self.ancho_solera_label.config(text="ft")
-            self.talud_entry.config(text="")
+            self.diametro_label.config(text="ft")
 
             self.tirante_critico_label.config(text="ft")
             self.area_label.config(text="ft2")
