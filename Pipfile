@@ -12,6 +12,7 @@ pycodestyle = "*"
 pillow = "*"
 xlwt = "*"
 fpdf = "*"
+pyinstaller = "*"
 
 [requires]
 python_version = "3.8"

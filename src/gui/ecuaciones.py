@@ -136,9 +136,9 @@ def tirante_critico_trapezoidal(Q, b, z, SI):
         gravity = GRAVITY_ENG
 
     def fun_y(y):
-        return gravity * z * y**2 + (gravity * b - 2 * z * Q**2) * y - b*Q**2 
+        return (b * y + z * y**2)**3 - (b * Q**2) / gravity - (2 * z * y * (Q**2) / gravity)
     def dif_fun_y(y):
-        return (2 * gravity * z * y) + gravity * b - 2 * z * Q**2
+        return 3 * ((b * y + z * y**2) ** 2) * (b + 2 * z * y) - 27 * (Q**2) / gravity
 
     y_o = 1000
     f_y = fun_y(y_o)
