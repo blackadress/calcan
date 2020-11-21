@@ -5,12 +5,13 @@ from gui.circular import CircularPage
 from gui.rectangular import RectangularPage
 from gui.trapecio import TrapecioPage
 from gui.triangular import TriangularPage
+from gui.calculadora import CalculadoraPage
 
 
 class HCanalesApp(tk.Tk):
     height = 720
     width = 1080
-  
+
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
 
@@ -30,7 +31,7 @@ class HCanalesApp(tk.Tk):
         container.columnconfigure(0, weight=1)
 
         self.frames = {}
-        for F in (StartPage, CircularPage, RectangularPage, TrapecioPage, TriangularPage):
+        for F in (StartPage, CircularPage, RectangularPage, TrapecioPage, TriangularPage, CalculadoraPage):
             page_name = F.__name__
             frame = F(parent=container, controller=self)
             self.frames[page_name] = frame
@@ -49,6 +50,7 @@ class StartPage(tk.Frame):
     page_rectangular_txt = "Cálculo de Canales Rectangulares"
     page_circular_txt = "Cálculo de Canales Circulares"
     page_trapecio_txt = "Cálculo de Canales Trapezoidales"
+    page_calculadora_txt = "Calculadora"
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
@@ -78,8 +80,14 @@ class StartPage(tk.Frame):
             height=2, width=30, border=2,
             fg='green', font=controller.button_font,
             command=lambda: controller.show_frame("TrapecioPage"))
+        page_calculadora_button = tk.Button(
+            self, text=self.page_calculadora_txt,
+            height=2, width=30, border=2,
+            fg='green', font=controller.button_font,
+            command=lambda: controller.show_frame("CalculadoraPage"))
 
         page_triangular_button.grid(row=1, column=0, pady=30)
         page_rectangular_button.grid(row=2, column=0, pady=30)
         page_circular_button.grid(row=3, column=0, pady=30)
         page_trapecio_button.grid(row=4, column=0, pady=30)
+        page_calculadora_button.grid(row=5, column=0, pady=30)
