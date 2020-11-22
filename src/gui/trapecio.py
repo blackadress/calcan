@@ -74,7 +74,7 @@ class TrapecioPage(tk.Frame):
             fg='blue',
             command=self.cambio_unidades
         )
-        cambio_unidades_btn.grid(row=4, column=0, rowspan=3)
+        cambio_unidades_btn.grid(row=5, column=0, rowspan=3)
 
         # adding right frame (imagen)
         img_frame = tk.Frame(self, border=2, relief=tk.RAISED)

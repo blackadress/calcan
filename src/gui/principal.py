@@ -32,6 +32,15 @@ class HCanalesApp(tk.Tk):
         container.rowconfigure(0, weight=1)
         container.columnconfigure(0, weight=1)
 
+        ## menu bar
+        menubar = tk.Menu(self)
+        self.config(menu=menubar)
+
+        acerca_de = tk.Menu(menubar, tearoff=0)
+        acerca_de.add_command(label="Acerca de CyC", command= self.acerca_de)
+
+        menubar.add_cascade(label="Acerca de CyC", menu=acerca_de)
+
         self.frames = {}
         for F in (StartPage, CircularPage, RectangularPage, TrapecioPage, TriangularPage, ParabolaPage, CalculadoraPage):
             page_name = F.__name__
@@ -46,6 +55,37 @@ class HCanalesApp(tk.Tk):
         frame = self.frames[page_name]
         frame.tkraise()
 
+    def acerca_de(self):
+        win = tk.Toplevel()
+        win.geometry("400x500")
+        win.wm_title("Acerca de CyC")
+
+        l = tk.Label(win, text="""
+CyC Critico, es la forma más fácil de calcular canales, versión 1.0
+es un software desarrollado en la Escuela de Ingeniería Agrícola de
+la Universidad Nacional San Cristóbal de Huamanga de Perú,
+representa una herramienta sencilla para el diseño de canales en
+flujo crítico""")
+        l.grid(row=0, column=0)
+
+        img = tk.PhotoImage(file="img/fondo_peq.png")
+        l = tk.Label(win)
+        l.image = img
+        l.configure(image=img)
+        l.grid(row=1, column=0, sticky='news')
+
+        l = tk.Label(win, text="""
+Autoras:
+Cabrera Delgado, Pía Camila
+Medina Huamán, Carol Sheyla
+""")
+        l.grid(row=2, column=0)
+
+        b = tk.Button(win, text="Aceptar", command=win.destroy)
+        b.grid(row=3, column=0)
+
+        print('acerca de')
+
 
 class StartPage(tk.Frame):
     page_triangular_txt = "Cálculo de Canales Triángulares"
@@ -58,6 +98,7 @@ class StartPage(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.columnconfigure(0, weight=1)
+
         self.title_font = tkfont.Font(
             family='Helvetica', size=18, weight="bold")
         self.sub_title_font = tkfont.Font(
