@@ -228,9 +228,6 @@ def angulo_circular(D, Q, SI):
 
 # y
 def tirante_critico_circular(o, D, SI):
-    # o_sex = o * 180/math.pi
-    # a = 360 - o_sex
-    # res = D/2 - (D/2) * math.cos(a/2)
     res = D/2 - (D/2) * math.cos(o/2)
     return round(res, ROUND_DIGITS)
 
