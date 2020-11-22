@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import font as tkfont
+from PIL import ImageTk, Image
 
 from gui.circular import CircularPage
 from gui.rectangular import RectangularPage
@@ -57,45 +58,67 @@ class StartPage(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.columnconfigure(0, weight=1)
+        self.title_font = tkfont.Font(
+            family='Helvetica', size=18, weight="bold")
+        self.sub_title_font = tkfont.Font(
+            family='Helvetica', size=14)
+        self.application_name_font = tkfont.Font(
+            family='Helvetica', size=18, weight="bold")
         self.controller = controller
-        label = tk.Label(self, text="Página Principal",
-                         font=controller.title_font)
+        label = tk.Label(self, text="UNIVERSIDAD NACIONAL SAN CRISTÓBAL DE HUAMANGA",
+                         font=self.title_font)
         label.grid(row=0, column=0)
+        label = tk.Label(self, text="ESCUELA PROFESIONAL DE INGENIERÍA AGRÍCOLA",
+                         font=self.sub_title_font)
+        label.grid(row=1, column=0)
+        label = tk.Label(self, text="C&C Crítico", fg="green",
+                         font=self.application_name_font)
+        label.grid(row=2, column=0)
+        frame = tk.Frame(self)
+        frame.grid(row=3, column=0, sticky='news')
+        frame.config(border=2)
+        frame.columnconfigure(0, weight=1)
+
+        image=tk.PhotoImage(file="img/fondo.png")
+        background_label = tk.Label(frame)
+        background_label.image = image
+        background_label.configure(image=image, width=30)
+        background_label.grid(row=0, column=0, sticky='news')
 
         page_triangular_button = tk.Button(
-            self, text=self.page_triangular_txt,
+            background_label, text=self.page_triangular_txt,
             height=2, width=30, border=2,
             fg='green', font=controller.button_font,
             command=lambda: controller.show_frame("TriangularPage"))
         page_rectangular_button = tk.Button(
-            self, text=self.page_rectangular_txt,
+            background_label, text=self.page_rectangular_txt,
             height=2, width=30, border=2,
             fg='green', font=controller.button_font,
             command=lambda: controller.show_frame("RectangularPage"))
         page_circular_button = tk.Button(
-            self, text=self.page_circular_txt,
+            background_label, text=self.page_circular_txt,
             height=2, width=30, border=2,
             fg='green', font=controller.button_font,
             command=lambda: controller.show_frame("CircularPage"))
         page_trapecio_button = tk.Button(
-            self, text=self.page_trapecio_txt,
+            background_label, text=self.page_trapecio_txt,
             height=2, width=30, border=2,
             fg='green', font=controller.button_font,
             command=lambda: controller.show_frame("TrapecioPage"))
         page_parabola_button = tk.Button(
-            self, text=self.page_parabola_txt,
+            background_label, text=self.page_parabola_txt,
             height=2, width=30, border=2,
             fg='green', font=controller.button_font,
             command=lambda: controller.show_frame("ParabolaPage"))
         page_calculadora_button = tk.Button(
-            self, text=self.page_calculadora_txt,
+            background_label, text=self.page_calculadora_txt,
             height=2, width=30, border=2,
             fg='green', font=controller.button_font,
             command=lambda: controller.show_frame("CalculadoraPage"))
 
-        page_triangular_button.grid(row=1, column=0, pady=30)
-        page_rectangular_button.grid(row=2, column=0, pady=30)
-        page_circular_button.grid(row=3, column=0, pady=30)
-        page_trapecio_button.grid(row=4, column=0, pady=30)
-        page_parabola_button.grid(row=5, column=0, pady=30)
-        page_calculadora_button.grid(row=6, column=0, pady=30)
+        page_triangular_button.grid(row=1, column=0, pady=25, padx=360)
+        page_rectangular_button.grid(row=2, column=0, pady=25)
+        page_circular_button.grid(row=3, column=0, pady=25)
+        page_trapecio_button.grid(row=4, column=0, pady=25)
+        page_parabola_button.grid(row=5, column=0, pady=25)
+        page_calculadora_button.grid(row=6, column=0, pady=25)

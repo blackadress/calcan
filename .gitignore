@@ -1,4 +1,7 @@
 .vscode
+**/build/**
+**/dist/**
+**.spec
 *.xlsx
 *.xls
 *.pdf
