@@ -6,6 +6,7 @@ from gui.rectangular import RectangularPage
 from gui.trapecio import TrapecioPage
 from gui.triangular import TriangularPage
 from gui.calculadora import CalculadoraPage
+from gui.parabola import ParabolaPage
 
 
 class HCanalesApp(tk.Tk):
@@ -31,7 +32,7 @@ class HCanalesApp(tk.Tk):
         container.columnconfigure(0, weight=1)
 
         self.frames = {}
-        for F in (StartPage, CircularPage, RectangularPage, TrapecioPage, TriangularPage, CalculadoraPage):
+        for F in (StartPage, CircularPage, RectangularPage, TrapecioPage, TriangularPage, ParabolaPage, CalculadoraPage):
             page_name = F.__name__
             frame = F(parent=container, controller=self)
             self.frames[page_name] = frame
@@ -50,6 +51,7 @@ class StartPage(tk.Frame):
     page_rectangular_txt = "Cálculo de Canales Rectangulares"
     page_circular_txt = "Cálculo de Canales Circulares"
     page_trapecio_txt = "Cálculo de Canales Trapezoidales"
+    page_parabola_txt = "Cálculo de Canales Parabólico"
     page_calculadora_txt = "Calculadora"
 
     def __init__(self, parent, controller):
@@ -80,6 +82,11 @@ class StartPage(tk.Frame):
             height=2, width=30, border=2,
             fg='green', font=controller.button_font,
             command=lambda: controller.show_frame("TrapecioPage"))
+        page_parabola_button = tk.Button(
+            self, text=self.page_parabola_txt,
+            height=2, width=30, border=2,
+            fg='green', font=controller.button_font,
+            command=lambda: controller.show_frame("ParabolaPage"))
         page_calculadora_button = tk.Button(
             self, text=self.page_calculadora_txt,
             height=2, width=30, border=2,
@@ -90,4 +97,5 @@ class StartPage(tk.Frame):
         page_rectangular_button.grid(row=2, column=0, pady=30)
         page_circular_button.grid(row=3, column=0, pady=30)
         page_trapecio_button.grid(row=4, column=0, pady=30)
-        page_calculadora_button.grid(row=5, column=0, pady=30)
+        page_parabola_button.grid(row=5, column=0, pady=30)
+        page_calculadora_button.grid(row=6, column=0, pady=30)

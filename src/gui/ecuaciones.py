@@ -74,8 +74,7 @@ def energia_especifica_triangular(y, v, SI):
     res = y + (v**2) / (2 * gravity)
     return round(res, ROUND_DIGITS)
 
-
-## RECTANGULAR
+## rectangular
 # y
 def tirante_critico_rectangular(Q, b, SI):
     if SI:
@@ -136,11 +135,12 @@ def tirante_critico_trapezoidal(Q, b, z, SI):
         gravity = GRAVITY_ENG
 
     def fun_y(y):
-        return (b * y + z * y**2)**3 - (b * Q**2) / gravity - (2 * z * y * (Q**2) / gravity)
+        return (b*y + z*y**2)**3 - (b*Q**2)/gravity - (2*z*y*(Q**2))/gravity
     def dif_fun_y(y):
-        return 3 * ((b * y + z * y**2) ** 2) * (b + 2 * z * y) - 27 * (Q**2) / gravity
+        return 3*((b*y + z*y**2)**2)*(b + 2*z*y) - (2*z*(Q**2))/gravity
 
-    y_o = 1000
+    y_o = 100000
+    # y_o = 0.3
     f_y = fun_y(y_o)
     dif_f_y = dif_fun_y(y_o)
     y_n = y_o - (f_y / dif_f_y)
@@ -158,7 +158,7 @@ def tirante_critico_trapezoidal(Q, b, z, SI):
         print("yo = {}, y{} = {}, error = {}, iteracion = {}".format(y_o, contador, y_n, error, contador))
 
     res = y_n
-    return round(res, ROUND_DIGITS)
+    return round(abs(res), ROUND_DIGITS)
 
 # A
 def area_hidraulica_trapezoidal(b, y, z, SI):
@@ -204,40 +204,39 @@ def angulo_circular(D, Q, SI):
     else:
         gravity = GRAVITY_ENG
 
-    def fun_o(o):
-        return (8 / D**2) * ((D * math.sin(o/2) * Q**2) / (gravity))**(1/3) + math.sin(o) - o
+    C = (Q**2)*(8**3)/(gravity*D**5)
+    def fun_y(o):
+        return math.sin(o/2)*C - (o - math.sin(o))**3
 
-    def dif_fun_o(o):
-        return (4 / 6 * D**2) * ((D * Q**2) / gravity)**(1/3)*(math.cos(o/2)/(math.sin(o/2))**(2/3)) + math.cos(o/2) - 1
+    def dif_fun_y(o):
+        return C*math.cos(o/2)*(1/2) - 3*((o-math.sin(o))**2)*(1-math.cos(o))
 
-    o_0 = math.pi
-    f_o = fun_o(o_0)
-    dif_f_o = dif_fun_o(o_0)
-    o_n = o_0 - (f_o / dif_f_o)
-    error = abs(o_0 - o_n)
-    o_0 = o_n
+    y_o = 5
     contador = 1
-    print("o_0 = {}, o1 = {}, error = {}, iteracion = {}".format(o_0, o_n, error, contador))
+    error = 50
+    x = 0
     while error > ERROR:
-        f_o = fun_o(o_0)
-        dif_f_o = dif_fun_o(o_0)
-        o_n = o_n - (f_o / dif_f_o)
-        error = abs(o_0 - o_n)
-        o_0 = o_n
+        x = y_o - fun_y(y_o)/dif_fun_y(y_o)
+        error = abs(x - y_o)
+        print("yo = {}, y{} = {}, error = {}, iteracion = {}".format(y_o, contador, x, error, contador))
+        y_o = x
         contador = contador + 1
-        # print("o_0 = {}, o{} = {}, error = {}, iteracion = {}".format(o_0, contador, o_n, error, contador))
 
-    res = o_n
-    return round(res, ROUND_DIGITS)
+    print("yo = {}, y{} = {}, error = {}, iteracion = {}".format(y_o, contador, x, error, contador))
+    res = y_o
+    return round(abs(res), ROUND_DIGITS)
 
 # y
 def tirante_critico_circular(o, D, SI):
-    res = D/2 + (D/2) * math.cos(2*math.pi - o)
+    # o_sex = o * 180/math.pi
+    # a = 360 - o_sex
+    # res = D/2 - (D/2) * math.cos(a/2)
+    res = D/2 - (D/2) * math.cos(o/2)
     return round(res, ROUND_DIGITS)
 
 # A
 def area_hidraulica_circular(o, D, SI):
-    res = (o - math.sin(o)) * D / 8
+    res = (o - math.sin(o)) * D**2 / 8
     print(res)
     return round(res, ROUND_DIGITS)
 
@@ -267,5 +266,65 @@ def energia_especifica_circular(y, v, SI):
         gravity = GRAVITY
     else:
         gravity = GRAVITY_ENG
-    res = y + v**2 / ((v ** 2) / (2 * gravity))
+    res = y + (v**2) / (2 * gravity)
     return round(res, ROUND_DIGITS)
+
+## PARABOLA
+# y
+def tirante_critico_parabolico(Q, T, SI):
+    if SI:
+        gravity = GRAVITY
+    else:
+        gravity = GRAVITY_ENG
+    res = (3/2)*((Q**2)/(gravity*T**2))**(1/3)
+    return round(res, ROUND_DIGITS)
+
+# A
+def area_hidraulica_parabolico(y, T, SI):
+    res = (2/3)*T*y
+    return round(res, ROUND_DIGITS)
+
+# k
+def foco_parabola(T, y, SI):
+    res = (T**2)/(8*y)
+    return round(res, ROUND_DIGITS)
+
+# P
+def perimetro_mojado_parabolico(T, y, A, SI):
+    if y/T <= 0.25:
+        print("menor 0.25")
+        res = T + (8/3)*(y**2)/T
+    elif abs(T - (3/2)*(A/y)) <= 0.1:
+        t1 = (1 + (16*y**2)/T**2)**(1/2)
+        print("t1", t1)
+        t2 = 4*y/T + (1 + (16*y**2)/T**2)**(1/2)
+        print("t2", t2)
+        t3 = (T/(4*y))*(math.log(t2, math.e))
+        print("t3", t3)
+        res = (T/2)*(t1 + t3)
+        print("res", res)
+    else:
+        res = 0
+
+    return round(res, ROUND_DIGITS)
+
+# R
+def radio_hidraulico_parabolico(A, P, SI):
+    res = A / P
+    return round(res, ROUND_DIGITS)
+
+# v
+def velocidad_parabolico(Q, A, SI):
+    res = Q / A
+    return round(res, ROUND_DIGITS)
+
+# E
+def energia_especifica_parabolico(y, v, SI):
+    if SI:
+        gravity = GRAVITY
+    else:
+        gravity = GRAVITY_ENG
+
+    res = y + (v**2) / (2 * gravity)
+    return round(res, ROUND_DIGITS)
+

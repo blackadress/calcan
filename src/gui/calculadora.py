@@ -72,6 +72,13 @@ class CalculadoraPage(tk.Frame):
         tk.Button(frame, text="=", height=3, width=4, command=lambda: self.calculate()).grid(
             row=5, column=4, sticky='we', columnspan=2)
 
+        home_btn = tk.Button(
+            self, text="Inicio",
+            border=2,
+            fg='red', font=controller.button_font,
+            command=lambda: controller.show_frame("StartPage"))
+        home_btn.grid(row=18, column=0, columnspan=12)
+
     def get_numbers(self, n):
         self.display.insert(self.i, n)
         self.i += 1
