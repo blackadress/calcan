@@ -56,6 +56,17 @@ class TrapecioPage(tk.Frame):
         self.talud_label.grid(row=3, column=2)
         self.talud_label.config(padx=4)
 
+        # Datos > coeficiente de friccion
+        coef_friccion_label = tk.Label(
+            datos_frame, text='Coeficiente de fricción', height=2)
+        coef_friccion_label.grid(row=4, column=0)
+        self.coef_friccion_entry = tk.Entry(datos_frame)
+        self.coef_friccion_entry.insert(0, 1)
+        self.coef_friccion_entry.grid(row=4, column=1)
+        self.coef_friccion_label = tk.Label(datos_frame, text='', height=2)
+        self.coef_friccion_label.grid(row=4, column=2)
+        self.coef_friccion_label.config(padx=4)
+
         # Datos > Internacional/Ingles
         cambio_unidades_btn = tk.Button(
             datos_frame, text='SI/Ingles',
@@ -279,7 +290,7 @@ class TrapecioPage(tk.Frame):
 
 
     def calcular(self):
-        n = 1
+        n = float(self.coef_friccion_entry.get())
         (Q, b, Z) = self.get_values()
         y = tirante_critico_trapezoidal(Q, b, Z, self.internacional)
         A = area_hidraulica_trapezoidal(b, y, Z, self.internacional)
@@ -314,12 +325,15 @@ class TrapecioPage(tk.Frame):
         self.ancho_solera_entry.insert(0, '')
         self.talud_entry.delete(0, tk.END)
         self.talud_entry.insert(0, '')
+        self.coef_friccion_entry.delete(0, tk.END)
+        self.coef_friccion_entry.insert(0, 1)
         print('limpiar')
 
     def exportar_excel(self):
         Caudal = self.caudal_entry.get()
         Solera = self.ancho_solera_entry.get()
         Talud = self.talud_entry.get()
+        Coef_friccion = self.coef_friccion_entry.get()
         tirante_critico = self.tirante_critico_entry.cget("text")
         area = self.area_entry.cget("text")
         espejo_agua = self.espejo_agua_entry.cget("text")
@@ -339,6 +353,8 @@ class TrapecioPage(tk.Frame):
         hoja_1.write(1, 1, Solera)
         hoja_1.write(2, 0, "Talud (z)")
         hoja_1.write(2, 1, Talud)
+        hoja_1.write(3, 0, "Coeficiente de fricción")
+        hoja_1.write(3, 1, Coef_friccion)
 
         hoja_1.write(0, 3, "Tirante Crítico (y)")
         hoja_1.write(0, 4, tirante_critico)
@@ -361,7 +377,7 @@ class TrapecioPage(tk.Frame):
 
         # cambiando tamaño a las columnas
         col_1 = hoja_1.col(0)
-        col_1.width = 2500
+        col_1.width = 5500
         col_2 = hoja_1.col(1)
         col_2.width = 2300
 
@@ -378,6 +394,7 @@ class TrapecioPage(tk.Frame):
         Caudal = self.caudal_entry.get()
         Solera = self.ancho_solera_entry.get()
         Talud = self.talud_entry.get()
+        Coef_friccion = self.coef_friccion_entry.get()
         tirante_critico = self.tirante_critico_entry.cget("text")
         area = self.area_entry.cget("text")
         espejo_agua = self.espejo_agua_entry.cget("text")
@@ -396,21 +413,25 @@ class TrapecioPage(tk.Frame):
         pdf.set_font('Arial', 'B', 16)
         pdf.cell(w=210.0, h=40.0, align='C', txt=title, border=0)
 
-        pdf.set_font('Arial', '', 13)
+        pdf.set_font('Arial', '', 10)
 
         # añadiendo celdas al pdf
         pdf.set_xy(20.0, 30.0)
-        pdf.cell(w=30.0, h=10.0, align='L', txt="Caudal (Q)", border=1)
-        pdf.set_xy(50.0, 30.0)
-        pdf.cell(w=30.0, h=10.0, align='L', txt=Caudal, border=1)
+        pdf.cell(w=55.0, h=10.0, align='L', txt="Caudal (Q)", border=1)
+        pdf.set_xy(75.0, 30.0)
+        pdf.cell(w=15.0, h=10.0, align='L', txt=Caudal, border=1)
         pdf.set_xy(20.0, 40.0)
-        pdf.cell(w=30.0, h=10.0, align='L', txt="Solera (b)", border=1)
-        pdf.set_xy(50.0, 40.0)
-        pdf.cell(w=30.0, h=10.0, align='L', txt=Solera, border=1)
+        pdf.cell(w=55.0, h=10.0, align='L', txt="Solera (b)", border=1)
+        pdf.set_xy(75.0, 40.0)
+        pdf.cell(w=15.0, h=10.0, align='L', txt=Solera, border=1)
         pdf.set_xy(20.0, 50.0)
-        pdf.cell(w=30.0, h=10.0, align='L', txt="Talud (z)", border=1)
-        pdf.set_xy(50.0, 50.0)
-        pdf.cell(w=30.0, h=10.0, align='L', txt=Talud, border=1)
+        pdf.cell(w=55.0, h=10.0, align='L', txt="Talud (z)", border=1)
+        pdf.set_xy(75.0, 50.0)
+        pdf.cell(w=15.0, h=10.0, align='L', txt=Talud, border=1)
+        pdf.set_xy(20.0, 60.0)
+        pdf.cell(w=55.0, h=10.0, align='L', txt="Coeficiente de fricción (n)", border=1)
+        pdf.set_xy(75.0, 60.0)
+        pdf.cell(w=15.0, h=10.0, align='L', txt=Coef_friccion, border=1)
 
         pdf.set_xy(90.0, 30.0)
         pdf.cell(w=50.0, h=10.0, align='L', txt="Tirante Critico (y)", border=1)

@@ -48,6 +48,17 @@ class CircularPage(tk.Frame):
         self.diametro_label.grid(row=2, column=2)
         self.diametro_label.config(padx=4)
 
+        # Datos > coeficiente de friccion
+        coef_friccion_label = tk.Label(
+            datos_frame, text='Coeficiente de fricción', height=2)
+        coef_friccion_label.grid(row=3, column=0)
+        self.coef_friccion_entry = tk.Entry(datos_frame)
+        self.coef_friccion_entry.insert(0, 1)
+        self.coef_friccion_entry.grid(row=3, column=1)
+        self.coef_friccion_label = tk.Label(datos_frame, text='', height=2)
+        self.coef_friccion_label.grid(row=3, column=2)
+        self.coef_friccion_label.config(padx=4)
+
         # Datos > Internacional/Ingles
         cambio_unidades_btn = tk.Button(
             datos_frame, text='SI/Ingles',
@@ -268,7 +279,7 @@ class CircularPage(tk.Frame):
             return (1, 1)
 
     def calcular(self):
-        n = 1
+        n = float(self.coef_friccion_entry.get())
         (Q, D) = self.get_values()
         o = angulo_circular(D, Q, self.internacional)
         y = tirante_critico_circular(o, D, self.internacional)
@@ -276,8 +287,7 @@ class CircularPage(tk.Frame):
         T = espejo_de_agua_circular(o, D, self.internacional)
         P = perimetro_mojado_circular(o, D, self.internacional)
         R = radio_hidraulico_circular(o, D, self.internacional)
-        # v = velocidad_circular(Q, A, self.internacional)
-        v = 1
+        v = velocidad_circular(Q, A, self.internacional)
         E = energia_especifica_circular(y, v, self.internacional)
         F = numero_de_froude(v, A, T, self.internacional)
         S = pendiente_critica(Q, n, A, R, self.internacional)
@@ -303,11 +313,14 @@ class CircularPage(tk.Frame):
         self.caudal_entry.insert(0, '')
         self.diametro_entry.delete(0, tk.END)
         self.diametro_entry.insert(0, '')
+        self.coef_friccion_entry.delete(0, tk.END)
+        self.coef_friccion_entry.insert(0, 1)
         print('limpiar')
 
     def exportar_excel(self):
         Caudal = self.caudal_entry.get()
         Diametro = self.diametro_entry.get()
+        Coef_friccion = self.coef_friccion_entry.get()
         tirante_critico = self.tirante_critico_entry.cget("text")
         area = self.area_entry.cget("text")
         espejo_agua = self.espejo_agua_entry.cget("text")
@@ -325,6 +338,8 @@ class CircularPage(tk.Frame):
         hoja_1.write(0, 1, Caudal)
         hoja_1.write(1, 0, "Diámetro (D)")
         hoja_1.write(1, 1, Diametro)
+        hoja_1.write(2, 0, "Coeficiente de fricción")
+        hoja_1.write(2, 1, Coef_friccion)
 
         hoja_1.write(0, 3, "Tirante Crítico (y)")
         hoja_1.write(0, 4, tirante_critico)
@@ -347,7 +362,7 @@ class CircularPage(tk.Frame):
 
         # cambiando tamaño a las columnas
         col_1 = hoja_1.col(0)
-        col_1.width = 2500
+        col_1.width = 5500
         col_2 = hoja_1.col(1)
         col_2.width = 2300
 
@@ -363,6 +378,7 @@ class CircularPage(tk.Frame):
     def exportar_pdf(self):
         Caudal = self.caudal_entry.get()
         Diametro = self.diametro_entry.get()
+        Coef_friccion = self.coef_friccion_entry.get()
         tirante_critico = self.tirante_critico_entry.cget("text")
         area = self.area_entry.cget("text")
         espejo_agua = self.espejo_agua_entry.cget("text")
@@ -382,18 +398,21 @@ class CircularPage(tk.Frame):
         pdf.set_font('Arial', 'B', 16)
         pdf.cell(w=210.0, h=40.0, align='C', txt=title, border=0)
 
-        pdf.set_font('Arial', '', 13)
+        pdf.set_font('Arial', '', 10)
 
         # añadiendo celdas al pdf
         pdf.set_xy(20.0, 30.0)
-        pdf.cell(w=30.0, h=10.0, align='L', txt="Caudal (Q)", border=1)
-        pdf.set_xy(50.0, 30.0)
-        pdf.cell(w=30.0, h=10.0, align='L', txt=Caudal, border=1)
+        pdf.cell(w=55.0, h=10.0, align='L', txt="Caudal (Q)", border=1)
+        pdf.set_xy(75.0, 30.0)
+        pdf.cell(w=15.0, h=10.0, align='L', txt=Caudal, border=1)
         pdf.set_xy(20.0, 40.0)
-        pdf.cell(w=30.0, h=10.0, align='L', txt="Diametro (D)", border=1)
-        pdf.set_xy(50.0, 40.0)
-        pdf.cell(w=30.0, h=10.0, align='L', txt=Diametro, border=1)
+        pdf.cell(w=55.0, h=10.0, align='L', txt="Diametro (D)", border=1)
+        pdf.set_xy(75.0, 40.0)
+        pdf.cell(w=15.0, h=10.0, align='L', txt=Diametro, border=1)
         pdf.set_xy(20.0, 50.0)
+        pdf.cell(w=55.0, h=10.0, align='L', txt="Coeficiente de fricción (n)", border=1)
+        pdf.set_xy(75.0, 50.0)
+        pdf.cell(w=15.0, h=10.0, align='L', txt=Coef_friccion, border=1)
 
         pdf.set_xy(90.0, 30.0)
         pdf.cell(w=50.0, h=10.0, align='L', txt="Tirante Critico (y)", border=1)
