@@ -2,7 +2,6 @@ import tkinter as tk
 import parser
 from tkinter import font as tkfont
 
-
 class CalculadoraPage(tk.Frame):
     i = 0
 

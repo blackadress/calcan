@@ -228,9 +228,6 @@ def angulo_circular(D, Q, SI):
 
 # y
 def tirante_critico_circular(o, D, SI):
-    # o_sex = o * 180/math.pi
-    # a = 360 - o_sex
-    # res = D/2 - (D/2) * math.cos(a/2)
     res = D/2 - (D/2) * math.cos(o/2)
     return round(res, ROUND_DIGITS)
 
@@ -292,19 +289,12 @@ def foco_parabola(T, y, SI):
 # P
 def perimetro_mojado_parabolico(T, y, A, SI):
     if y/T <= 0.25:
-        print("menor 0.25")
         res = T + (8/3)*(y**2)/T
-    elif abs(T - (3/2)*(A/y)) <= 0.1:
-        t1 = (1 + (16*y**2)/T**2)**(1/2)
-        print("t1", t1)
-        t2 = 4*y/T + (1 + (16*y**2)/T**2)**(1/2)
-        print("t2", t2)
-        t3 = (T/(4*y))*(math.log(t2, math.e))
-        print("t3", t3)
-        res = (T/2)*(t1 + t3)
-        print("res", res)
     else:
-        res = 0
+        t1 = (1 + (16*y**2)/T**2)**(1/2)
+        t2 = 4*y/T + (1 + (16*y**2)/T**2)**(1/2)
+        t3 = (T/(4*y))*(math.log(t2, math.e))
+        res = (T/2)*(t1 + t3)
 
     return round(res, ROUND_DIGITS)
 
