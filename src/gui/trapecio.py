@@ -91,7 +91,7 @@ class TrapecioPage(tk.Frame):
         # img_label = tk.Label(image=img)
 
         # no PIL
-        img = tk.PhotoImage(file='img/rectangular.png')
+        img = tk.PhotoImage(file='img/trapezoidal.png')
         img_label = tk.Label(img_frame)
         img_label.image = img
         img_label.configure(image=img)
@@ -180,7 +180,7 @@ class TrapecioPage(tk.Frame):
         # adding bottom right frame (datos)
         results_frame_right = tk.Frame(bottom_frame, border=2, relief=tk.RAISED)
         results_frame_right.grid(
-            row=6, column=4, columnspan=6, rowspan=4, sticky='e', padx=(10, 10), pady=30)
+            row=6, column=4, columnspan=6, rowspan=4, sticky='e', padx=(10, 240), pady=30)
         results_frame_right.config(border=3)
         results_frame_right.columnconfigure(0, weight=1)
 

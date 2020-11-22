@@ -165,7 +165,7 @@ class TriangularPage(tk.Frame):
         results_frame_right = tk.Frame(
             bottom_frame, border=2, relief=tk.RAISED)
         results_frame_right.grid(
-            row=6, column=4, columnspan=6, rowspan=4, sticky='e', padx=(10, 10), pady=30)
+            row=6, column=4, columnspan=6, rowspan=4, sticky='e', padx=(10, 240), pady=30)
         results_frame_right.config(border=3)
         results_frame_right.columnconfigure(0, weight=1)
 
